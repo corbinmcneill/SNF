@@ -1,21 +1,32 @@
-class Integer:
+class Z(object):
     def __init__(self, a):
         self.a = a
 
     def __mul__(x,y):
-        return Integer(x.a * y.a)
+        return Z(x.a * y.a)
 
     def __add__(x,y):
-        return Integer(x.a + y.a)
+        return Z(x.a + y.a)
 
     def __str__(self):
         return str(self.a)
 
+    def __eq__(x,y):
+        return x.a==y.a
+
+    def __ne__(x,y):
+        return not x == y
+
     def isUnit(self):
         return (self.a==1) or (self.a==-1)
 
-    def getZero(self):
-        return Integer(0)
+    @staticmethod
+    def getZero():
+        return Z(0)
+    
+    @staticmethod
+    def getOne():
+        return Z(1)
 
     def factor(self):
         factors = []
@@ -23,25 +34,33 @@ class Integer:
         currentFactor = 2
         while currentFactor <= float(aCopy):
             if aCopy % currentFactor == 0:
-                factors.append(Integer(currentFactor))
+                factors.append(Z(currentFactor))
                 aCopy /= currentFactor
+            else:
+                currentFactor += 1
         if aCopy > 1:
-            factors.append(Integer(currentFactor))
+            factors.append(Z(currentFactor))
         return factors
 
-class GInteger:
+class ZI(object):
     def __init__(self, a, b):
         self.a = a
         self.b = b
 
     def __mul__(x,y):
-        return GInteger(x.a*y.a - x.b*y.b, x.a*y.b + x.b*y.a)
+        return ZI(x.a*y.a - x.b*y.b, x.a*y.b + x.b*y.a)
 
     def __add__(x,y):
-        return GInteger(x.a + y.a, x.b + y.b)
+        return ZI(x.a + y.a, x.b + y.b)
 
     def __str__(self):
         return str(self.a) + "+(" + str(self.b)+")i"
+
+    def __eq__(x,y):
+        return x.a == y.a and x.b == y.b
+
+    def __ne__(x,y):
+        return not x == y
 
     def isUnit(self):
         if self.a==1 and self.b==0:
@@ -54,14 +73,19 @@ class GInteger:
             return True
         return False
 
-    def getZero(self):
-        return GInteger(0,0)
+    @staticmethod
+    def getZero():
+        return ZI(0,0)
+
+    @staticmethod
+    def getOne():
+        return ZI(1,0)
 
     def factor(self):
         #TODO
         return []
 
-class Matrix:
+class Matrix(object):
     def __init__(self, h, w, elements):
         self.h = h
         self.w = w
@@ -96,13 +120,34 @@ class Matrix:
             result += "\n"
         return result
 
+    def __eq__(x,y):
+        if x.h != y.h or x.w != y.w:
+            return False
+        for i in range(x.w * x.h):
+            if x.elements[i] != y.elements[i]:
+                return False
+        return True
+
+    def __ne__(x,y):
+        return not x == y
+
+    @staticmethod
+    def getSquareIdentity(dim, elementType):
+        elements = [elementType.getZero() for i in range(dim*dim)]
+        for i in range(dim):
+            elements[i*dim + i] = elementType.getOne()
+        return Matrix(dim, dim, elements)
+
     def get(self, i, j):
         assert i>=0 and i<self.h
         assert j>=0 and j<self.w
         return self.elements[i*self.w + j]
 
-matrixA = Matrix(2,2,[Integer(5), Integer(4), Integer(7), Integer(2)])
-matrixB = Matrix(2,2,[Integer(0), Integer(2), Integer(3), Integer(3)])
-print str(matrixA * matrixB)
+    def set(self, i, j, e):
+        assert i>=0 and i<self.h
+        assert j>=0 and j<self.w
+        self.elements[i*self.w + j] = e
 
-
+def snf(A):
+	M = Matrix.getSquareIdentity(A.h, type(A.get(0,0)))
+	N = Matrix.getSquareIdentity(A.w, type(A.get(0,0)))
