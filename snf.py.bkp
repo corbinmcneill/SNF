@@ -1,5 +1,3 @@
-DEBUG = False
-
 class Z(object):
     def __init__(self, a):
         self.a = a
@@ -71,14 +69,80 @@ class ZI(object):
     def __neg__(x):
         return ZI(-x.a, -x.b)
 
+    def __mul__(x, y):
+        return ZI(x.a * y.a - x.b * y.b, x.a * y.b + x.b * y.a)
+
+    def __add__(x, y):
+        return ZI(x.a + y.a, x.b + y.b)
+
+    def __sub__(x,y):
+        return ZI(x.a - y.a, x.b - y.b)
+
+    def __lt__(x, y):
+        return (x.a * x.a + x.b * x.b) < (y.a * y.a + y.b * y.b)
+
+    def __gt__(x, y):
+        return (x.a * x.a + x.b * x.b) > (y.a * y.a + y.b * y.b)
+
+    def __str__(self):
+        return str(self.a) + "+(" + str(self.b) + ")i"
+
+    def __eq__(x, y):
+        return x.a == y.a and x.b == y.b
+
+    def __ne__(x, y):
+        return not x == y
+
+    def com(x):
+        return ZI(x.a,-x.b)
+
+    def num(x,y):
+        return ZI((x*y.com()).a,(x*y.com()).b)
+
+    def __div__(x,y):
+        return ZI(round(float((x.num(y)).a) / (y.a*y.a + y.b*y.b)),round(float((x.num(y)).b) / (y.a*y.a + y.b*y.b)))
+
+    def __mod__(x,y):
+        return ZI((x - y * (x / y)).a,(x - y * (x / y)).b)
+
+    def isUnit(self):
+        return (self.a==1) or (self.a==-1)
+
+    @staticmethod
+    def getZero():
+        return Z(0)
+    
+    @staticmethod
+    def getOne():
+        return Z(1)
+
+    def factor(self):
+        factors = []
+        aCopy = self.a
+        currentFactor = 2
+        while currentFactor <= float(aCopy):
+            if aCopy % currentFactor == 0:
+                factors.append(Z(currentFactor))
+                aCopy /= currentFactor
+            else:
+                currentFactor += 1
+        if aCopy > 1:
+            factors.append(Z(currentFactor))
+        return factors
+
+class ZI(object):
+    def __init__(self, a, b):
+        self.a = a
+        self.b = b
+
+    def __neg__(x):
+        return ZI(-x.a, -x.b)
+
     def __mul__(x,y):
         return ZI(x.a*y.a - x.b*y.b, x.a*y.b + x.b*y.a)
 
     def __add__(x,y):
         return ZI(x.a + y.a, x.b + y.b)
-    
-    def __sub__(x,y):
-        return ZI(x.a - y.a, x.b - y.b)
 
     def __lt__(x,y):
         return (x.a*x.a + x.b*x.b) < (y.a*y.a + y.b*y.b)
@@ -94,19 +158,6 @@ class ZI(object):
 
     def __ne__(x,y):
         return not x == y
-
-    def com(x):
-        return ZI(x.a, -x.b)
-
-    def num(x, y):
-        return ZI((x * y.com()).a, (x * y.com()).b)
-
-    def __div__(x, y):
-        return ZI(int(round(float((x.num(y)).a) / (y.a * y.a + y.b * y.b))),
-                  int(round(float((x.num(y)).b) / (y.a * y.a + y.b * y.b))))
-
-    def __mod__(x, y):
-        return ZI((x - y * (x / y)).a, (x - y * (x / y)).b)
 
     def isUnit(self):
         if self.a==1 and self.b==0:
@@ -211,8 +262,7 @@ class Matrix(object):
             assert h>0
             w = int(raw_input("Matrix width:  "))
             assert w>0
-            strElements = raw_input("Please enter the %d space-delineated matrix elements across rows\n"%(h*w)).split(" ")
-            strElements = strElements[:h*w]
+            strElements = raw_input("Please enter the %d comma-delineated matrix elements across rows\n"%(h*w)).split(",")
             print
             contents = []
             for i in range(len(strElements)):
@@ -223,19 +273,9 @@ class Matrix(object):
 
         #----- Gaussian Integers -----#
         elif (choice ==1):
-            print 
-            h = int(raw_input("Matrix height: "))
-            assert h>0
-            w = int(raw_input("Matrix width:  "))
-            assert w>0
-            print "Please enter the the contents of the matrix in the following way. Reading across each row from top to bottom enter the real and imaginary component of each gausian integer. Place a space between each gaussian integer component and place a space between each matrix element. Your input should contaid %d components."%(h*w*2)
+            print "Not Yet Supported"
+            print
 
-            strElements = raw_input().split(" ")
-            strElements = strElements[:h*w*2]
-            contents=[]
-            for i in range(len(strElements)/2):
-                contents.append(ZI(int(strElements[2*i].strip()),int(strElements[2*i+1].strip())))
-            return Matrix(h,w,contents)
         else:
             print "Sorry. That was not a valid selection."
             print
@@ -256,7 +296,7 @@ J = None;
 T = None;
 
 def cSwap(i,j):
-    global elementT, S, J, T, DEBUG
+    global elementT, S, J, T
     print "OPERATION: Swapping columns %d and %d"%(i,j)
     #perform the column swap to J
     assert J is not None
@@ -272,15 +312,14 @@ def cSwap(i,j):
     adjustment.set(j,i,elementT.getOne())
     adjustment.set(i,i,elementT.getZero())
     adjustment.set(j,j,elementT.getZero())
+    print "adjustment:"
+    print adjustment
     T = T*adjustment
-    if DEBUG:
-        print "adjustment:"
-        print adjustment
-        print "adjusted T:"
-        print T
+    print "adjusted T:"
+    print T
 
 def cLC(i,j,a,b):
-    global elementT, S, J, T, DEBUG
+    global elementT, S, J, T
     print "OPERATION: Column %d gets %s column %d plus %s column %d"%(i,a,i,b,j)
     assert a is not 0 and b is not 0
     #perform the linear column application to J
@@ -292,15 +331,14 @@ def cLC(i,j,a,b):
     adjustment.set(i,i,a)
     if i!=j:
         adjustment.set(j,i,b) 
+    print "adjustment:"
+    print adjustment
     T = T*adjustment
-    if DEBUG:
-        print "adjustment:"
-        print adjustment
-        print "adjusted T:"
-        print T
+    print "adjusted T:"
+    print T
 
 def rSwap(i,j):
-    global elementT, S, J, T, DEBUG
+    global elementT, S, J, T
     print "OPERATION: Swapping rows %d and %d"%(i,j)
     #perform the row swap to J
     for k in range(J.w):
@@ -314,15 +352,14 @@ def rSwap(i,j):
     adjustment.set(j,i,elementT.getOne())
     adjustment.set(i,i,elementT.getZero())
     adjustment.set(j,j,elementT.getZero())
+    print "adjustment:"
+    print adjustment
     S = adjustment*S
-    if DEBUG:
-        print "adjustment:"
-        print adjustment
-        print "adjusted S:"
-        print S
+    print "adjusted S:"
+    print S
 
 def rLC(i,j,a,b):
-    global elementT, S, J, T, DEBUG
+    global elementT, S, J, T
     print "OPERATION: Row %d gets %s row %d plus %s row %d"%(i,a,i,b,j)
     assert a is not 0 and b is not 0
     #perform the linear column application to J
@@ -334,12 +371,11 @@ def rLC(i,j,a,b):
     adjustment.set(i,i,a)
     if i!=j:
         adjustment.set(i,j,b) 
+    print "adjustment:"
+    print adjustment
     S = adjustment*S
-    if DEBUG:
-        print "adjustment:"
-        print adjustment
-        print "adjusted S:"
-        print S
+    print "adjusted S:"
+    print S
 
 def euclid(a, b):
     # output g, x, y where g = gcd(a,b) = xa + yb
@@ -366,26 +402,25 @@ def euclid(a, b):
 
 
 def snf(A):
-    global elementT, J, S, T, DEBUG
+    global elementT, J, S, T
     J = A.copy()
     elementT=type(A.get(0,0))
 
     assert J is not None
     assert elementT is not None
 
-    print "Calculating the Smith Normal Form of A..."
+    print "Calculating the Smith Normal Form..."
     print
-    if DEBUG:
-        print "J: "
-        print J
-        print
+    print "J: "
+    print J
+    print
 
     S = Matrix.id(A.h, type(A.get(0,0)))
     T = Matrix.id(A.w, type(A.get(0,0)))
 
     #The heart of snf starts here
     for i in range(min(J.h,J.w)):
-        print "\nstarting iteration %d of %d"%(i+1,min(J.h, J.w))
+        print "starting %d iteration"%i
         #if the top-left element of the subarray is 0 we need to
         #perform row/column swaps to move in a different value
         if J.get(i,i) == elementT.getZero():
@@ -425,32 +460,25 @@ def snf(A):
                     gcd = -gcd
                     x = -x
                     y = -y
-                if (DEBUG):
-                    print "GCD: %s"%gcd
-                    print "TE:  %s"%J.get(i,i)
-                if gcd == J.get(i,i):
-                    pass
-                elif gcd == J.get(j,i):
+                #print gcd, J.get(j,i)
+                if gcd == J.get(j,i):
                     rSwap(i,j)
-                    if DEBUG:
-                        print "J:"
-                        print J
-                        print 
+                    print "J:"
+                    print J
+                    print 
                     doneIteration=False
                 elif gcd == -J.get(j,i): #TODO WORK THIS BLOCK
                     rSwap(i,j)
                     rLC(i,i,-elementT.getOne(), elementT.getZero())
-                    if DEBUG:
-                        print "J:"
-                        print J
-                        print 
+                    print "J:"
+                    print J
+                    print 
                     doneIteration=False
-                elif gcd.a < J.get(i,i).a or gcd.a < -J.get(i,i).a:
+                elif gcd.a < J.get(i,i).a:
                     rLC(i, j, x, y)
-                    if DEBUG:
-                        print "J:"
-                        print J
-                        print 
+                    print "J:"
+                    print J
+                    print 
                     doneIteration=False
             for j in range(i+1, J.w):
                 gcd, x, y = euclid(J.get(i,i), J.get(i,j))
@@ -458,35 +486,29 @@ def snf(A):
                     gcd = -gcd
                     x = -x
                     y = -y
-                if DEBUG:
-                    print "GCD: %s"%gcd
-                    print "TE:  %s"%J.get(i,i)
-                if gcd == J.get(i,i):
-                    pass
-                elif gcd == J.get(i,j):
+                #print gcd, J.get(i,j)
+                if gcd == J.get(i,j):
                     cSwap(i,j)
-                    if DEBUG:
-                        print "J:"
-                        print J
-                        print 
+                    print "J:"
+                    print J
+                    print 
                     doneIteration=False
                 elif gcd == -J.get(i,j): #TODO WORK THIS BLOCK
                     rSwap(i,j)
                     cLC(i,i,-elementT.getOne(), elementT.getZero())
-                    if DEBUG:
-                        print "J:"
-                        print J
-                        print 
+                    print "J:"
+                    print J
+                    print 
                     doneIteration=False
-                elif gcd < J.get(i,i) or gcd < -J.get(i,i):
+                elif gcd.a < J.get(i,i).a:
                     cLC(i, j, x, y)
-                    if DEBUG:
-                        print "J:"
-                        print J
-                        print 
+                    print "J:"
+                    print J
+                    print 
                     doneIteration=False
+        #print gcd, J.get(i,i)
         assert gcd > elementT.getZero()
-        assert gcd == J.get(i,i), "gcd is %s, corner element is %s"%(gcd, J.get(i,i))
+        assert gcd == J.get(i,i)
         assert (J is not None) and (str(J) is not None)
 
         #use the gcd to make all elements int the ith row and the ith
@@ -495,86 +517,37 @@ def snf(A):
             if J.get(j,i) != elementT.getZero():
                 rLC(j,i,elementT.getOne(),-J.get(j,i)/gcd)
                 assert(J.get(j,i) == elementT.getZero()), "Actually: %s"%J.get(j,i)
-                if DEBUG:
-                    print "J:"
-                    print J
-                    print 
+                print "J:"
+                print J
+                print 
         for j in range(i+1, J.w):
             if J.get(i,j) != elementT.getZero():
                 cLC(j,i,elementT.getOne(),-J.get(i,j)/gcd)
                 assert(J.get(i,j) == elementT.getZero()), "Actually: %s"%J.get(i,j)
-                if DEBUG:
-                    print "J:"
-                    print J
-                    print 
+                print "J:"
+                print J
+                print 
 
     #At this point J is diagonalized. Me simply need to make sure that every
     #diagonal element divides the element after it
-    print "\nFIXING DIAGONAL"
-    for i in range(min(J.w, J.h)-1):
-        #If the next diagonal element is 0, then all following diagonal elements
-        #will be 0. Therefore J is in Smith normal form and we return
-        if J.get(i+1,i+1) == elementT.getZero():
-            return J
-        gcd, x, y = euclid(J.get(i,i), J.get(i+1,i+1))
-        #if the ith diagonal element is already the gcd of of the the ith and
-        #the (i+1)th diagonal elements, they are correct and we can advance. If
-        #they are not we should change the ith element to be the gcd by row
-        #operations while maintaining that J is diagonal
-        if (gcd == J.get(i+1,i+1)):
-            cSwap(i, i+1)
-            if DEBUG:
-                print "J:"
-                print J
-                print 
-            rSwap(i, i+1)
-            if DEBUG:
-                print "J:"
-                print J
-                print 
-        elif (gcd != J.get(i,i)):
-            rLC(i, i+1, elementT.getOne(), elementT.getOne())
-            if DEBUG:
-                print "J:"
-                print J
-                print 
-            cLC(i, i+1, x, y)
-            if DEBUG:
-                print "J:"
-                print J
-                print 
-            cLC(i+1, i, elementT.getOne(), -J.get(i,i+1)/J.get(i,i))
-            if DEBUG:
-                print "J:"
-                print J
-                print 
-            rLC(i+1, i, elementT.getOne(), -J.get(i+1,i)/J.get(i,i))
-            if DEBUG:
-                print "J:"
-                print J
-                print 
-
     return J
 
 if __name__ == "__main__":
-    #contents = [ZI(-4,-8),ZI(-1,-10),ZI(2,3),ZI(-1,-9),ZI(8,4),ZI(-5,10)]
-    #A = Matrix(2,3,contents)
-    
-    A = Matrix.inputMatrix()
-
-    print "\nA:"
-    print A
+    contents = [Z(2),Z(9),Z(0),Z(3),Z(0),Z(-6),Z(3),Z(6),Z(-1),Z(6),Z(12),Z(5)]
+    A = Matrix(3,4,contents)
     result = snf(A)
-
-    print
-    print "Smith Normal Form computation complete. Results:"
-    print
-
-    print "\nS:"
+    print "S:"
     print str(S)
-    print "T:"
-    print str(T)
     print "J:"
     print str(result)
+    print "T:"
+    print str(T)
     print "S*A*T"
     print S*A*T
+
+    #A = Matrix.inputMatrix()
+    #print "You inputted the following matrix: \n"
+    #print A
+    #print
+
+    #snf(A)

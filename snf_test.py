@@ -1,4 +1,4 @@
-from snf import Z,ZI, Matrix
+from snf import Z,ZI,Matrix
 
 def Z_factor1_test():
 	assert Z(18).factor() ==[Z(2),Z(3),Z(3)]
@@ -20,5 +20,5 @@ def matrixZ_mult1_test():
     assert A*B == C
 
 def getSquareIdentity_test():
-	assert Matrix.getSquareIdentity(2, type(Z(1))) == Matrix(2, 2, [Z(1), Z(0), Z(0), Z(1)])
+    assert Matrix.id(2, type(Z(1))) == Matrix(2, 2, [Z(1), Z(0), Z(0), Z(1)])
 
