@@ -1,4 +1,5 @@
-from snf import Z,ZI,Matrix
+from snf import Z,ZI,Matrix,snf,S,T
+from random import randint
 
 def Z_factor1_test():
 	assert Z(18).factor() ==[Z(2),Z(3),Z(3)]
@@ -21,4 +22,18 @@ def matrixZ_mult1_test():
 
 def getSquareIdentity_test():
     assert Matrix.id(2, type(Z(1))) == Matrix(2, 2, [Z(1), Z(0), Z(0), Z(1)])
+
+def random20_test():
+    r = []
+
+    h = randint(3,3)
+    w = randint(3,3)
+    contents = []
+    for i in range(h*w):
+        contents.append(ZI(randint(-100,100), randint(-100,100)))
+    A = Matrix(h,w,contents)
+    s,j,t = snf(A)
+    assert s*A*t==j
+    print A
+    print j
 
