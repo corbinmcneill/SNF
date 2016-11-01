@@ -107,6 +107,12 @@ class ZI(object):
         return ZI((x * y.com()).a, (x * y.com()).b)
 
     def __div__(x, y):
+        n1 = x.num(y).a
+        n2 = x.num(y).b
+        d = y.a*y.a + y.b*y.b
+        comp1 = (n1 + d/2)/d
+        comp2 = (n2 + d/2)/d
+        return ZI(comp1, comp2)
         return ZI(int(round(float((x.num(y)).a) / (y.a * y.a + y.b * y.b))),
                   int(round(float((x.num(y)).b) / (y.a * y.a + y.b * y.b))))
 
@@ -149,15 +155,15 @@ class Matrix(object):
         self.elements = elements
 
     def __add__(x, y):
-        assert x.h == y.h
-        assert x.w == y.w
+        #assert x.h == y.h
+        #assert x.w == y.w
         newElements = []
         for i in range(h*w):
             newElements.append(x.elements[i] + y.elements[i])
         return Matrix(x.h, x.w, newElements)
 
     def __mul__(x, y):
-        assert x.w == y.h
+        #assert x.w == y.h
         newH = x.h
         newW = y.w
         newElements = []
@@ -196,13 +202,13 @@ class Matrix(object):
         return Matrix(dim, dim, elements)
 
     def get(self, i, j):
-        assert i>=0 and i<self.h
-        assert j>=0 and j<self.w
+        #assert i>=0 and i<self.h
+        #assert j>=0 and j<self.w
         return self.elements[i*self.w + j]
 
     def set(self, i, j, e):
-        assert i>=0 and i<self.h
-        assert j>=0 and j<self.w
+        #assert i>=0 and i<self.h
+        #assert j>=0 and j<self.w
         self.elements[i*self.w + j] = e
 
     def copy(self):
@@ -219,9 +225,9 @@ class Matrix(object):
         if (choice==0):
             print 
             h = int(raw_input("Matrix height: "))
-            assert h>0
+            #assert h>0
             w = int(raw_input("Matrix width:  "))
-            assert w>0
+            #assert w>0
             strElements = raw_input("Please enter the %d space-delineated matrix elements across rows\n"%(h*w)).split(" ")
             strElements = strElements[:h*w]
             print
@@ -236,9 +242,9 @@ class Matrix(object):
         elif (choice ==1):
             print 
             h = int(raw_input("Matrix height: "))
-            assert h>0
+            #assert h>0
             w = int(raw_input("Matrix width:  "))
-            assert w>0
+            #assert w>0
             print "Please enter the the contents of the matrix in the following way. Reading across each row from top to bottom enter the real and imaginary component of each gausian integer. Place a space between each gaussian integer component and place a space between each matrix element. Your input should contaid %d components."%(h*w*2)
 
             strElements = raw_input().split(" ")
@@ -291,7 +297,7 @@ def cSwap(i,j):
 def cLC(i,j,a,b):
     global elementT, S, J, T, DEBUG
     print "OPERATION: Column %d gets %s column %d plus %s column %d"%(i,a,i,b,j)
-    assert a is not 0 and b is not 0
+    #assert a is not 0 and b is not 0
     #perform the linear column application to J
     for k in range(J.h):
         J.set(k,i,a*J.get(k,i) + b*J.get(k,j))
@@ -368,9 +374,9 @@ def euclid(a, b):
         tempy0 = y0
         y0 = y1
         y1 = tempy0 - q * y0
-    assert a is not None
-    assert x0 is not None
-    assert y0 is not None
+    #assert a is not None
+    #assert x0 is not None
+    #assert y0 is not None
     return [a, x0, y0]
 
 
@@ -379,8 +385,8 @@ def snf(A):
     J = A.copy()
     elementT=type(A.get(0,0))
 
-    assert J is not None
-    assert elementT is not None
+    #assert J is not None
+    #assert elementT is not None
 
     print "Calculating the Smith Normal Form of A..."
     print
@@ -411,7 +417,7 @@ def snf(A):
             #if there are no non-zero values left to swap in, the algorithm
             #is complete
             if not foundReplacement:
-                assert (J is not None) and (str(J) is not None)
+                #assert (J is not None) and (str(J) is not None)
                 break
             #perform the swap
             else:
@@ -419,8 +425,8 @@ def snf(A):
                 cSwap(i,k)
         #now we should not have a zero in the top-left position
         #of the submatrix
-        assert J.get(i,i) != elementT.getZero()
-        assert (J is not None) and (str(J) is not None)
+        #assert J.get(i,i) != elementT.getZero()
+        #assert (J is not None) and (str(J) is not None)
 
         #make the top-left submatrix element be the gcd of all the elements
         #in the same row or the same column
@@ -502,30 +508,37 @@ def snf(A):
                         print S*A*T
                         print 
                     doneIteration=False
-        assert gcd > elementT.getZero()
+        #assert gcd > elementT.getZero()
         #assert gcd == J.get(i,i), "gcd is %s, corner element is %s"%(gcd, J.get(i,i))
-        assert (J is not None) and (str(J) is not None)
+        #assert (J is not None) and (str(J) is not None)
 
         #use the gcd to make all elements int the ith row and the ith
         #column zero by row and column linear combinations
-        for j in range(i+1, J.h):
-            if J.get(j,i) != elementT.getZero():
-                rLC(j,i,elementT.getOne(),-J.get(j,i)/J.get(i,i))
-                assert(J.get(j,i) == elementT.getZero()), "Actually: %s\n%s"%(J.get(j,i),A)
-                if DEBUG:
-                    print "J:"
-                    print J
-                    print S*A*T
-                    print 
-        for j in range(i+1, J.w):
-            if J.get(i,j) != elementT.getZero():
-                cLC(j,i,elementT.getOne(),-J.get(i,j)/J.get(i,i))
-                assert(J.get(i,j) == elementT.getZero()), "Actually: %s\n%s"%(J.get(i,j),A)
-                if DEBUG:
-                    print "J:"
-                    print J
-                    print S*A*T
-                    print 
+        doneZeroing = False
+        while not doneZeroing:
+            doneZeroing = True
+            for j in range(i+1, J.h):
+                if J.get(j,i) != elementT.getZero():
+                    rLC(j,i,elementT.getOne(),-J.get(j,i)/J.get(i,i))
+                    #assert(J.get(j,i) == elementT.getZero()), "Actually: %s\n%s"%(J.get(j,i),A)
+                    if J.get(j,i) != elementT.getZero():
+                        doneZeroing = False
+                    if DEBUG:
+                        print "J:"
+                        print J
+                        print S*A*T
+                        print 
+            for j in range(i+1, J.w):
+                if J.get(i,j) != elementT.getZero():
+                    cLC(j,i,elementT.getOne(),-J.get(i,j)/J.get(i,i))
+                    #assert(J.get(i,j) == elementT.getZero()), "Actually: %s\n%s"%(J.get(i,j),A)
+                    if J.get(i,j) != elementT.getZero():
+                        doneZeroing = False
+                    if DEBUG:
+                        print "J:"
+                        print J
+                        print S*A*T
+                        print 
 
     #At this point J is diagonalized. Me simply need to make sure that every
     #diagonal element divides the element after it
@@ -582,10 +595,10 @@ def snf(A):
     return S,J,T
 
 if __name__ == "__main__":
-    contents = [ZI(2,-3),ZI(-5,1),ZI(2,-3),ZI(-2,-3)]
-    A = Matrix(2,2,contents)
+    #contents = [ZI(2,-3),ZI(-5,1),ZI(2,-3),ZI(-2,-3)]
+    #A = Matrix(2,2,contents)
     
-    #A = Matrix.inputMatrix()
+    A = Matrix.inputMatrix()
 
     print "\nA:"
     print A
@@ -602,4 +615,4 @@ if __name__ == "__main__":
     print "J:"
     print str(j)
     print "S*A*T"
-    print s*a*t
+    print s*A*t

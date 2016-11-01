@@ -24,16 +24,18 @@ def getSquareIdentity_test():
     assert Matrix.id(2, type(Z(1))) == Matrix(2, 2, [Z(1), Z(0), Z(0), Z(1)])
 
 def random20_test():
-    r = []
+    for run in range(10):
+        
+        r = []
 
-    h = randint(3,3)
-    w = randint(3,3)
-    contents = []
-    for i in range(h*w):
-        contents.append(ZI(randint(-100,100), randint(-100,100)))
-    A = Matrix(h,w,contents)
-    s,j,t = snf(A)
-    assert s*A*t==j
-    print A
-    print j
+        h = randint(4,10)
+        w = randint(4,10)
+        contents = []
+        for i in range(h*w):
+            contents.append(ZI(randint(-100,100), randint(-100,100)))
+        A = Matrix(h,w,contents)
+        s,j,t = snf(A)
+        assert s*A*t==j
+        print A
+        print j
 
