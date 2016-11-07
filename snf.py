@@ -1,4 +1,4 @@
-DEBUG = False
+DEBUG = True
 
 class Z(object):
     def __init__(self, a):
@@ -193,6 +193,12 @@ class Matrix(object):
 
     def __ne__(x,y):
         return not x == y
+
+    def determinant(self):
+    	#TODO
+    	pass
+
+
 
     @staticmethod
     def id(dim, elementType):
@@ -547,7 +553,7 @@ def snf(A):
         #If the next diagonal element is 0, then all following diagonal elements
         #will be 0. Therefore J is in Smith normal form and we return
         if J.get(i+1,i+1) == elementT.getZero():
-            return J
+            return S,J,T
         gcd, x, y = euclid(J.get(i,i), J.get(i+1,i+1))
         #if the ith diagonal element is already the gcd of of the the ith and
         #the (i+1)th diagonal elements, they are correct and we can advance. If
@@ -591,6 +597,24 @@ def snf(A):
                 print J
                 print S*A*T
                 print 
+
+    print "MAKING COMPLIMENT MATRICES INVERTIBLE"
+    for i in range(min(J.w, J.h)):
+    	gcd = J.get(i,i)
+    	for j in range(J.h):
+    		gcd = euclid(gcd, S.get(i,j))[0]
+    	if not gcd.isUnit():
+    		for j in range(J.h):
+    			S.set(i,j, S.get(i,j)/gcd)
+    	J.set(i,i,J.get(i,i)/gcd)
+
+    	gcd = J.get(i,i)
+    	for j in range(J.w):
+    		gcd = euclid(gcd, T.get(j,i))[0]
+    	if not gcd.isUnit():
+    		for j in range(J.w):
+    			S.set(j,i, S.get(j,i)/gcd)
+    	J.set(i,i,J.get(i,i)/gcd)
 
     return S,J,T
 
