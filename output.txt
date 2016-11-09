@@ -1,0 +1,99 @@
+What type is your matrix?
+[0]: Integers
+[1]: Gaussian Integers
+> 
+Matrix height: Matrix width:  Please enter the 4 space-delineated matrix elements across rows
+
+
+A:
+2 4 
+7 9 
+
+Calculating the Smith Normal Form of A...
+
+J: 
+2 4 
+7 9 
+
+
+
+starting iteration 1 of 2
+GCD: 1
+TE:  2
+OPERATION: Row 0 gets -3 row 0 plus 1 row 1
+adjustment:
+-3 1 
+0 1 
+
+adjusted S:
+-3 1 
+0 1 
+
+J:
+1 -3 
+7 9 
+
+1 -3 
+7 9 
+
+
+GCD: 1
+TE:  1
+OPERATION: Row 1 gets 1 row 1 plus -7 row 0
+adjustment:
+1 0 
+-7 1 
+
+adjusted S:
+-3 1 
+21 -6 
+
+J:
+1 -3 
+0 30 
+
+1 -3 
+0 30 
+
+
+OPERATION: Column 1 gets 1 column 1 plus 3 column 0
+adjustment:
+1 3 
+0 1 
+
+adjusted T:
+1 3 
+0 1 
+
+J:
+1 0 
+0 30 
+
+1 0 
+0 30 
+
+
+
+starting iteration 2 of 2
+
+FIXING DIAGONAL
+
+Smith Normal Form computation complete. Results:
+
+
+S:
+-3 1 
+21 -6 
+
+T:
+1 3 
+0 1 
+
+J:
+1 0 
+0 30 
+
+S*A*T
+1 0 
+0 30 
+

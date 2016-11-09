@@ -1,4 +1,4 @@
-DEBUG = True
+DEBUG = False
 
 class Z(object):
     def __init__(self, a):
@@ -195,11 +195,25 @@ class Matrix(object):
         return not x == y
 
     def determinant(self):
-    	#TODO
-    	pass
+    	assert self.h == self.w
+    	if (self.h==1):
+    		return self.get(0,0)
 
-
-
+    	total = type(self.get(0,0)).getZero()
+    	for i in range(self.h):
+    		scale = self.get(i,0)
+    		if (i%2==1):
+    			scale = -scale
+    		subcontent = []
+    		for j in range(self.h):
+    			if i == j:
+    				continue
+    			else:
+    				for k in range(1,self.h):
+    					subcontent.append(self.get(j,k))
+    		total += scale * Matrix(self.h-1, self.h-1, subcontent).determinant()
+    	return total
+    					
     @staticmethod
     def id(dim, elementType):
         elements = [elementType.getZero() for i in range(dim*dim)]
@@ -300,19 +314,33 @@ def cSwap(i,j):
         print "adjusted T:"
         print T
 
-def cLC(i,j,a,b):
+def cLC(I,i,j,a,b,gcd=None):
     global elementT, S, J, T, DEBUG
     print "OPERATION: Column %d gets %s column %d plus %s column %d"%(i,a,i,b,j)
     #assert a is not 0 and b is not 0
     #perform the linear column application to J
+    if gcd is None or a.isUnit():
+    	c = elementT.getZero()
+    	d = elementT.getOne()
+    else:
+    	c = -J.get(I,j)/gcd
+    	d = J.get(I,i)/gcd
+
+    temp = []
     for k in range(J.h):
+    	temp = J.get(k,i)
         J.set(k,i,a*J.get(k,i) + b*J.get(k,j))
+        J.set(k,j,c*temp + d*J.get(k,j))
 
     #adjust the T matrix
     adjustment = Matrix.id(T.h, elementT)
     adjustment.set(i,i,a)
     if i!=j:
         adjustment.set(j,i,b) 
+        adjustment.set(i,j,c)
+    	adjustment.set(j,j,d)
+
+    assert adjustment.determinant().isUnit()
     T = T*adjustment
     if DEBUG:
         print "adjustment:"
@@ -342,19 +370,32 @@ def rSwap(i,j):
         print "adjusted S:"
         print S
 
-def rLC(i,j,a,b):
-    global elementT, S, J, T, DEBUG
+def rLC(I,i,j,a,b,gcd=None):
+    global elementT, A, S, J, T, DEBUG
     print "OPERATION: Row %d gets %s row %d plus %s row %d"%(i,a,i,b,j)
     assert a is not 0 and b is not 0
+
+    if (gcd is None or a.isUnit()):
+    	c=elementT.getZero()
+    	d=elementT.getOne()
+    else:
+    	c = -J.get(j,I)/gcd
+    	d = J.get(i,I)/gcd
+
     #perform the linear column application to J
     for k in range(J.w):
+    	temp = J.get(i,k)
         J.set(i,k,a*J.get(i,k) + b*J.get(j,k))
+        J.set(j,k,c*temp + d*J.get(j,k))
 
     #adjust the S matrix
     adjustment = Matrix.id(S.h, elementT)
     adjustment.set(i,i,a)
     if i!=j:
         adjustment.set(i,j,b) 
+        adjustment.set(j,i,c)
+        adjustment.set(j,j,d)
+    assert adjustment.determinant().isUnit()
     S = adjustment*S
     if DEBUG:
         print "adjustment:"
@@ -463,7 +504,7 @@ def snf(A):
                     doneIteration=False
                 elif gcd == -J.get(j,i):
                     rSwap(i,j)
-                    rLC(i,i,-elementT.getOne(), elementT.getZero())
+                    rLC(i,i,i,-elementT.getOne(), elementT.getZero(),gcd)
                     if DEBUG:
                         print "J:"
                         print J
@@ -471,7 +512,7 @@ def snf(A):
                         print 
                     doneIteration=False
                 elif gcd < J.get(i,i) or gcd < -J.get(i,i):
-                    rLC(i, j, x, y)
+                    rLC(i, i, j, x, y, gcd)
                     if DEBUG:
                         print "J:"
                         print J
@@ -498,8 +539,8 @@ def snf(A):
                         print 
                     doneIteration=False
                 elif gcd == -J.get(i,j): #TODO WORK THIS BLOCK
-                    rSwap(i,j)
-                    cLC(i,i,-elementT.getOne(), elementT.getZero())
+                    cSwap(i,j)
+                    cLC(i,i,i,-elementT.getOne(), elementT.getZero(),gcd)
                     if DEBUG:
                         print "J:"
                         print J
@@ -507,7 +548,7 @@ def snf(A):
                         print 
                     doneIteration=False
                 elif gcd < J.get(i,i) or gcd < -J.get(i,i):
-                    cLC(i, j, x, y)
+                    cLC(i, i, j, x, y, gcd)
                     if DEBUG:
                         print "J:"
                         print J
@@ -525,7 +566,7 @@ def snf(A):
             doneZeroing = True
             for j in range(i+1, J.h):
                 if J.get(j,i) != elementT.getZero():
-                    rLC(j,i,elementT.getOne(),-J.get(j,i)/J.get(i,i))
+                    rLC(i,j,i,elementT.getOne(),-J.get(j,i)/J.get(i,i))
                     #assert(J.get(j,i) == elementT.getZero()), "Actually: %s\n%s"%(J.get(j,i),A)
                     if J.get(j,i) != elementT.getZero():
                         doneZeroing = False
@@ -536,7 +577,7 @@ def snf(A):
                         print 
             for j in range(i+1, J.w):
                 if J.get(i,j) != elementT.getZero():
-                    cLC(j,i,elementT.getOne(),-J.get(i,j)/J.get(i,i))
+                    cLC(i,j,i,elementT.getOne(),-J.get(i,j)/J.get(i,i))
                     #assert(J.get(i,j) == elementT.getZero()), "Actually: %s\n%s"%(J.get(i,j),A)
                     if J.get(i,j) != elementT.getZero():
                         doneZeroing = False
@@ -573,53 +614,54 @@ def snf(A):
                 print S*A*T
                 print 
         elif (gcd != J.get(i,i)):
-            rLC(i, i+1, elementT.getOne(), elementT.getOne())
+            rLC(i,i, i+1, elementT.getOne(), elementT.getOne())
             if DEBUG:
                 print "J:"
                 print J
                 print S*A*T
                 print 
-            cLC(i, i+1, x, y)
+            cLC(i, i, i+1, x, y, gcd)
             if DEBUG:
                 print "J:"
                 print J
                 print S*A*T
                 print 
-            cLC(i+1, i, elementT.getOne(), -J.get(i,i+1)/J.get(i,i))
+            cLC(i, i+1, i, elementT.getOne(), -J.get(i,i+1)/J.get(i,i))
             if DEBUG:
                 print "J:"
                 print J
                 print S*A*T
                 print 
-            rLC(i+1, i, elementT.getOne(), -J.get(i+1,i)/J.get(i,i))
+            rLC(i, i+1, i, elementT.getOne(), -J.get(i+1,i)/J.get(i,i))
             if DEBUG:
                 print "J:"
                 print J
                 print S*A*T
                 print 
 
-    print "MAKING COMPLIMENT MATRICES INVERTIBLE"
-    for i in range(min(J.w, J.h)):
-    	gcd = J.get(i,i)
-    	for j in range(J.h):
-    		gcd = euclid(gcd, S.get(i,j))[0]
-    	if not gcd.isUnit():
-    		for j in range(J.h):
-    			S.set(i,j, S.get(i,j)/gcd)
-    	J.set(i,i,J.get(i,i)/gcd)
+    #print "MAKING COMPLIMENT MATRICES INVERTIBLE"
+    #for i in range(min(J.w, J.h)):
+    #	gcd = J.get(i,i)
+    #	for j in range(J.h):
+    #		gcd = euclid(gcd, S.get(i,j))[0]
+    #	if not gcd.isUnit():
+    #		for j in range(J.h):
+    #			S.set(i,j, S.get(i,j)/gcd)
+    #		J.set(i,i,J.get(i,i)/gcd)
 
-    	gcd = J.get(i,i)
-    	for j in range(J.w):
-    		gcd = euclid(gcd, T.get(j,i))[0]
-    	if not gcd.isUnit():
-    		for j in range(J.w):
-    			S.set(j,i, S.get(j,i)/gcd)
-    	J.set(i,i,J.get(i,i)/gcd)
+    #	gcd = J.get(i,i)
+    #	for j in range(J.w):
+    #		gcd = euclid(gcd, T.get(j,i))[0]
+    #	if not gcd.isUnit():
+    #		for j in range(J.w):
+    #			T.set(j,i, T.get(j,i)/gcd)
+    #		J.set(i,i,J.get(i,i)/gcd)
 
     return S,J,T
 
 if __name__ == "__main__":
-    #contents = [ZI(2,-3),ZI(-5,1),ZI(2,-3),ZI(-2,-3)]
+
+    #contents = [Z(0),Z(-5),Z(10),Z(-10)]
     #A = Matrix(2,2,contents)
     
     A = Matrix.inputMatrix()
