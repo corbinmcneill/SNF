@@ -1,284 +1,8 @@
+import z
+import zi
+import matrix
+
 DEBUG = False
-
-class Z(object):
-    def __init__(self, a):
-        self.a = a
-
-    def __neg__(x):
-        return Z(-x.a)
-
-    def __mul__(x, y):
-        return Z(x.a * y.a)
-
-    def __div__(x, y):
-        return Z(x.a / y.a)
-
-    def __mod__(x, y):
-        return Z(x.a % y.a)
-
-    def __add__(x, y):
-        return Z(x.a + y.a)
-
-    def __sub__(x, y):
-        return Z(x.a - y.a)
-
-    def __str__(self):
-        return str(self.a)
-
-    def __eq__(x, y):
-        return x.a == y.a
-
-    def __ne__(x, y):
-        return x.a != y.a
-
-    def __lt__(x, y):
-        return x.a < y.a
-
-    def __gt__(x, y):
-        return x.a > y.a
-
-
-    def isUnit(self):
-        return (self.a == 1) or (self.a == -1)
-
-    @staticmethod
-    def getUnits():
-        return [Z(1),Z(-1)]
-
-    @staticmethod
-    def getZero():
-        return Z(0)
-
-    @staticmethod
-    def getOne():
-        return Z(1)
-
-    def factor(self):
-        factors = []
-        aCopy = self.a
-        currentFactor = 2
-        while currentFactor <= float(aCopy):
-            if aCopy % currentFactor == 0:
-                factors.append(Z(currentFactor))
-                aCopy /= currentFactor
-            else:
-                currentFactor += 1
-        if aCopy > 1:
-            factors.append(Z(currentFactor))
-        return factors
-
-
-class ZI(object):
-    def __init__(self, a, b):
-        self.a = a
-        self.b = b
-
-    def __neg__(x):
-        return ZI(-x.a, -x.b)
-
-    def __mul__(x,y):
-        return ZI(x.a*y.a - x.b*y.b, x.a*y.b + x.b*y.a)
-
-    def __add__(x,y):
-        return ZI(x.a + y.a, x.b + y.b)
-    
-    def __sub__(x,y):
-        return ZI(x.a - y.a, x.b - y.b)
-
-    def __lt__(x,y):
-        return (x.a*x.a + x.b*x.b) < (y.a*y.a + y.b*y.b)
-
-    def __gt__(x,y):
-        return (x.a*x.a + x.b*x.b) > (y.a*y.a + y.b*y.b)
-
-    def __str__(self):
-        return str(self.a) + "+(" + str(self.b)+")i"
-
-    def __eq__(x,y):
-        return x.a == y.a and x.b == y.b
-
-    def __ne__(x,y):
-        return not x == y
-
-    def com(x):
-        return ZI(x.a, -x.b)
-
-    def num(x, y):
-        return ZI((x * y.com()).a, (x * y.com()).b)
-
-    def __div__(x, y):
-        n1 = x.num(y).a
-        n2 = x.num(y).b
-        d = y.a*y.a + y.b*y.b
-        comp1 = (n1 + d/2)/d
-        comp2 = (n2 + d/2)/d
-        return ZI(comp1, comp2)
-        return ZI(int(round(float((x.num(y)).a) / (y.a * y.a + y.b * y.b))),
-                  int(round(float((x.num(y)).b) / (y.a * y.a + y.b * y.b))))
-
-    def __mod__(x, y):
-        return ZI((x - y * (x / y)).a, (x - y * (x / y)).b)
-
-    def isUnit(self):
-        if self.a==1 and self.b==0:
-            return True
-        elif self.a==-1 and self.b==0:
-            return True
-        elif self.a==0 and self.b==1:
-            return True
-        elif self.a==0 and self.b==-1:
-            return True
-        return False
-
-    @staticmethod
-    def getUnits():
-        return [ZI(1,0),ZI(-1,0),ZI(0,1),ZI(0,-1)]
-
-        
-
-    @staticmethod
-    def getZero():
-        return ZI(0,0)
-
-    @staticmethod
-    def getOne():
-        return ZI(1,0)
-
-    def factor(self):
-        #TODO
-        return []
-
-class Matrix(object):
-    def __init__(self, h, w, elements):
-        self.h = h
-        self.w = w
-        self.elements = elements
-
-    def __add__(x, y):
-        #assert x.h == y.h
-        #assert x.w == y.w
-        newElements = []
-        for i in range(h*w):
-            newElements.append(x.elements[i] + y.elements[i])
-        return Matrix(x.h, x.w, newElements)
-
-    def __mul__(x, y):
-        #assert x.w == y.h
-        newH = x.h
-        newW = y.w
-        newElements = []
-        for i in range(newH):
-            for j in range(newW):
-                newElement = x.elements[0].getZero();
-                for k in range(x.w):
-                    newElement += (x.get(i, k) * y.get(k, j))
-                newElements.append(newElement)
-        return Matrix(newH, newW, newElements)
-
-    def __str__(self):
-        result = ""
-        for i in range(self.h):
-            for j in range(self.w):
-                result += (str(self.get(i,j)) + " ")
-            result += "\n"
-        return result
-
-    def __eq__(x,y):
-        if x.h != y.h or x.w != y.w:
-            return False
-        for i in range(x.w * x.h):
-            if x.elements[i] != y.elements[i]:
-                return False
-        return True
-
-    def __ne__(x,y):
-        return not x == y
-
-    def determinant(self):
-    	assert self.h == self.w
-    	if (self.h==1):
-    		return self.get(0,0)
-
-    	total = type(self.get(0,0)).getZero()
-    	for i in range(self.h):
-    		scale = self.get(i,0)
-    		if (i%2==1):
-    			scale = -scale
-    		subcontent = []
-    		for j in range(self.h):
-    			if i == j:
-    				continue
-    			else:
-    				for k in range(1,self.h):
-    					subcontent.append(self.get(j,k))
-    		total += scale * Matrix(self.h-1, self.h-1, subcontent).determinant()
-    	return total
-    					
-    @staticmethod
-    def id(dim, elementType):
-        elements = [elementType.getZero() for i in range(dim*dim)]
-        for i in range(dim):
-            elements[i*dim + i] = elementType.getOne()
-        return Matrix(dim, dim, elements)
-
-    def get(self, i, j):
-        #assert i>=0 and i<self.h
-        #assert j>=0 and j<self.w
-        return self.elements[i*self.w + j]
-
-    def set(self, i, j, e):
-        #assert i>=0 and i<self.h
-        #assert j>=0 and j<self.w
-        self.elements[i*self.w + j] = e
-
-    def copy(self):
-        return Matrix(self.h, self.w, self.elements[:])
-
-    @staticmethod
-    def inputMatrix():
-        print "What type is your matrix?"
-        print "[0]: Integers"
-        print "[1]: Gaussian Integers"
-        choice = int(raw_input("> "))
-
-        #-------- Integers -----------#
-        if (choice==0):
-            print 
-            h = int(raw_input("Matrix height: "))
-            #assert h>0
-            w = int(raw_input("Matrix width:  "))
-            #assert w>0
-            strElements = raw_input("Please enter the %d space-delineated matrix elements across rows\n"%(h*w)).split(" ")
-            strElements = strElements[:h*w]
-            print
-            contents = []
-            for i in range(len(strElements)):
-                contents.append(Z(int(strElements[i].strip())))
-
-            return Matrix(h,w,contents)
-            
-
-        #----- Gaussian Integers -----#
-        elif (choice ==1):
-            print 
-            h = int(raw_input("Matrix height: "))
-            #assert h>0
-            w = int(raw_input("Matrix width:  "))
-            #assert w>0
-            print "Please enter the the contents of the matrix in the following way. Reading across each row from top to bottom enter the real and imaginary component of each gausian integer. Place a space between each gaussian integer component and place a space between each matrix element. Your input should contaid %d components."%(h*w*2)
-
-            strElements = raw_input().split(" ")
-            strElements = strElements[:h*w*2]
-            contents=[]
-            for i in range(len(strElements)/2):
-                contents.append(ZI(int(strElements[2*i].strip()),int(strElements[2*i+1].strip())))
-            return Matrix(h,w,contents)
-        else:
-            print "Sorry. That was not a valid selection."
-            print
-
-
-            
 
 # We should find that every through the process S*A*T = J where
 # A is the input matrix.
@@ -302,7 +26,7 @@ def cSwap(i,j):
         J.set(k,j, temp)
 
     #adjust the T matrix
-    adjustment = Matrix.id(T.h, elementT)
+    adjustment = matrix.Matrix.id(T.h, elementT)
     adjustment.set(i,i,elementT.getZero())
     adjustment.set(j,j,elementT.getZero())
     adjustment.set(i,j,elementT.getOne())
@@ -333,7 +57,7 @@ def cLC(I,i,j,a,b,gcd=None):
         J.set(k,j,c*temp + d*J.get(k,j))
 
     #adjust the T matrix
-    adjustment = Matrix.id(T.h, elementT)
+    adjustment = matrix.Matrix.id(T.h, elementT)
     adjustment.set(i,i,a)
     if i!=j:
         adjustment.set(j,i,b) 
@@ -358,7 +82,7 @@ def rSwap(i,j):
         J.set(j,k, temp)
 
     #adjust the S matrix
-    adjustment = Matrix.id(S.h, elementT)
+    adjustment = matrix.Matrix.id(S.h, elementT)
     adjustment.set(i,j,elementT.getOne())
     adjustment.set(j,i,elementT.getOne())
     adjustment.set(i,i,elementT.getZero())
@@ -389,7 +113,7 @@ def rLC(I,i,j,a,b,gcd=None):
         J.set(j,k,c*temp + d*J.get(j,k))
 
     #adjust the S matrix
-    adjustment = Matrix.id(S.h, elementT)
+    adjustment = matrix.Matrix.id(S.h, elementT)
     adjustment.set(i,i,a)
     if i!=j:
         adjustment.set(i,j,b) 
@@ -442,8 +166,8 @@ def snf(A):
         print J
         print
 
-    S = Matrix.id(A.h, type(A.get(0,0)))
-    T = Matrix.id(A.w, type(A.get(0,0)))
+    S = matrix.Matrix.id(A.h, type(A.get(0,0)))
+    T = matrix.Matrix.id(A.w, type(A.get(0,0)))
 
     #The heart of snf starts here
     for i in range(min(J.h,J.w)):
@@ -662,9 +386,9 @@ def snf(A):
 if __name__ == "__main__":
 
     #contents = [Z(0),Z(-5),Z(10),Z(-10)]
-    #A = Matrix(2,2,contents)
+    #A = matrix.Matrix(2,2,contents)
     
-    A = Matrix.inputMatrix()
+    A = matrix.Matrix.inputMatrix()
 
     print "\nA:"
     print A
