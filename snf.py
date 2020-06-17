@@ -2,7 +2,6 @@ import z
 import zi
 import matrix
 
-DEBUG = False
 
 # We should find that every through the process S*A*T = J where
 # A is the input matrix.
@@ -17,7 +16,7 @@ J = None;
 T = None;
 
 def cSwap(i,j):
-    global elementT, S, J, T, DEBUG
+    global elementT, S, J, T
     print "OPERATION: Swapping columns %d and %d"%(i,j)
     #perform the column swap to J
     for k in range(J.h):
@@ -32,14 +31,9 @@ def cSwap(i,j):
     adjustment.set(i,j,elementT.getOne())
     adjustment.set(j,i,elementT.getOne())
     T = T*adjustment
-    if DEBUG:
-        print "adjustment:"
-        print adjustment
-        print "adjusted T:"
-        print T
 
 def cLC(I,i,j,a,b,gcd=None):
-    global elementT, S, J, T, DEBUG
+    global elementT, S, J, T
     print "OPERATION: Column %d gets %s column %d plus %s column %d"%(i,a,i,b,j)
     #assert a is not 0 and b is not 0
     #perform the linear column application to J
@@ -66,14 +60,9 @@ def cLC(I,i,j,a,b,gcd=None):
 
     assert adjustment.determinant().isUnit()
     T = T*adjustment
-    if DEBUG:
-        print "adjustment:"
-        print adjustment
-        print "adjusted T:"
-        print T
 
 def rSwap(i,j):
-    global elementT, S, J, T, DEBUG
+    global elementT, S, J, T
     print "OPERATION: Swapping rows %d and %d"%(i,j)
     #perform the row swap to J
     for k in range(J.w):
@@ -88,14 +77,9 @@ def rSwap(i,j):
     adjustment.set(i,i,elementT.getZero())
     adjustment.set(j,j,elementT.getZero())
     S = adjustment*S
-    if DEBUG:
-        print "adjustment:"
-        print adjustment
-        print "adjusted S:"
-        print S
 
 def rLC(I,i,j,a,b,gcd=None):
-    global elementT, A, S, J, T, DEBUG
+    global elementT, A, S, J, T
     print "OPERATION: Row %d gets %s row %d plus %s row %d"%(i,a,i,b,j)
     assert a is not 0 and b is not 0
 
@@ -121,11 +105,6 @@ def rLC(I,i,j,a,b,gcd=None):
         adjustment.set(j,j,d)
     assert adjustment.determinant().isUnit()
     S = adjustment*S
-    if DEBUG:
-        print "adjustment:"
-        print adjustment
-        print "adjusted S:"
-        print S
 
 def euclid(a, b):
     # output g, x, y where g = gcd(a,b) = xa + yb
@@ -152,7 +131,7 @@ def euclid(a, b):
 
 
 def snf(A):
-    global elementT, J, S, T, DEBUG
+    global elementT, J, S, T
     J = A.copy()
     elementT=type(A.get(0,0))
 
@@ -161,10 +140,6 @@ def snf(A):
 
     print "Calculating the Smith Normal Form of A..."
     print
-    if DEBUG:
-        print "J: "
-        print J
-        print
 
     S = matrix.Matrix.id(A.h, type(A.get(0,0)))
     T = matrix.Matrix.id(A.w, type(A.get(0,0)))
@@ -213,35 +188,17 @@ def snf(A):
                     gcd = -gcd
                     x = -x
                     y = -y
-                if (DEBUG):
-                    print "GCD: %s"%gcd
-                    print "TE:  %s"%J.get(i,i)
                 if gcd == J.get(i,i):
                     pass
                 elif gcd == J.get(j,i):
                     rSwap(i,j)
-                    if DEBUG:
-                        print "J:"
-                        print J
-                        print S*A*T
-                        print 
                     doneIteration=False
                 elif gcd == -J.get(j,i):
                     rSwap(i,j)
                     rLC(i,i,i,-elementT.getOne(), elementT.getZero(),gcd)
-                    if DEBUG:
-                        print "J:"
-                        print J
-                        print S*A*T
-                        print 
                     doneIteration=False
                 elif gcd < J.get(i,i) or gcd < -J.get(i,i):
                     rLC(i, i, j, x, y, gcd)
-                    if DEBUG:
-                        print "J:"
-                        print J
-                        print S*A*T
-                        print 
                     doneIteration=False
             for j in range(i+1, J.w):
                 gcd, x, y = euclid(J.get(i,i), J.get(i,j))
@@ -249,35 +206,17 @@ def snf(A):
                     gcd = -gcd
                     x = -x
                     y = -y
-                if DEBUG:
-                    print "GCD: %s"%gcd
-                    print "TE:  %s"%J.get(i,i)
                 if gcd == J.get(i,i):
                     pass
                 elif gcd == J.get(i,j):
                     cSwap(i,j)
-                    if DEBUG:
-                        print "J:"
-                        print J
-                        print S*A*T
-                        print 
                     doneIteration=False
                 elif gcd == -J.get(i,j): #TODO WORK THIS BLOCK
                     cSwap(i,j)
                     cLC(i,i,i,-elementT.getOne(), elementT.getZero(),gcd)
-                    if DEBUG:
-                        print "J:"
-                        print J
-                        print S*A*T
-                        print 
                     doneIteration=False
                 elif gcd < J.get(i,i) or gcd < -J.get(i,i):
                     cLC(i, i, j, x, y, gcd)
-                    if DEBUG:
-                        print "J:"
-                        print J
-                        print S*A*T
-                        print 
                     doneIteration=False
         #assert gcd > elementT.getZero()
         #assert gcd == J.get(i,i), "gcd is %s, corner element is %s"%(gcd, J.get(i,i))
@@ -294,22 +233,12 @@ def snf(A):
                     #assert(J.get(j,i) == elementT.getZero()), "Actually: %s\n%s"%(J.get(j,i),A)
                     if J.get(j,i) != elementT.getZero():
                         doneZeroing = False
-                    if DEBUG:
-                        print "J:"
-                        print J
-                        print S*A*T
-                        print 
             for j in range(i+1, J.w):
                 if J.get(i,j) != elementT.getZero():
                     cLC(i,j,i,elementT.getOne(),-J.get(i,j)/J.get(i,i))
                     #assert(J.get(i,j) == elementT.getZero()), "Actually: %s\n%s"%(J.get(i,j),A)
                     if J.get(i,j) != elementT.getZero():
                         doneZeroing = False
-                    if DEBUG:
-                        print "J:"
-                        print J
-                        print S*A*T
-                        print 
 
     #At this point J is diagonalized. Me simply need to make sure that every
     #diagonal element divides the element after it
@@ -326,60 +255,12 @@ def snf(A):
         #operations while maintaining that J is diagonal
         if (gcd == J.get(i+1,i+1)):
             cSwap(i, i+1)
-            if DEBUG:
-                print "J:"
-                print J
-                print S*A*T
-                print 
             rSwap(i, i+1)
-            if DEBUG:
-                print "J:"
-                print J
-                print S*A*T
-                print 
         elif (gcd != J.get(i,i)):
             rLC(i,i, i+1, elementT.getOne(), elementT.getOne())
-            if DEBUG:
-                print "J:"
-                print J
-                print S*A*T
-                print 
             cLC(i, i, i+1, x, y, gcd)
-            if DEBUG:
-                print "J:"
-                print J
-                print S*A*T
-                print 
             cLC(i, i+1, i, elementT.getOne(), -J.get(i,i+1)/J.get(i,i))
-            if DEBUG:
-                print "J:"
-                print J
-                print S*A*T
-                print 
             rLC(i, i+1, i, elementT.getOne(), -J.get(i+1,i)/J.get(i,i))
-            if DEBUG:
-                print "J:"
-                print J
-                print S*A*T
-                print 
-
-    #print "MAKING COMPLIMENT MATRICES INVERTIBLE"
-    #for i in range(min(J.w, J.h)):
-    #	gcd = J.get(i,i)
-    #	for j in range(J.h):
-    #		gcd = euclid(gcd, S.get(i,j))[0]
-    #	if not gcd.isUnit():
-    #		for j in range(J.h):
-    #			S.set(i,j, S.get(i,j)/gcd)
-    #		J.set(i,i,J.get(i,i)/gcd)
-
-    #	gcd = J.get(i,i)
-    #	for j in range(J.w):
-    #		gcd = euclid(gcd, T.get(j,i))[0]
-    #	if not gcd.isUnit():
-    #		for j in range(J.w):
-    #			T.set(j,i, T.get(j,i)/gcd)
-    #		J.set(i,i,J.get(i,i)/gcd)
 
     return S,J,T
 
