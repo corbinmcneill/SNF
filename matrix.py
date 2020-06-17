@@ -89,21 +89,21 @@ class Matrix(object):
 
     @staticmethod
     def inputMatrix():
-        print "What type is your matrix?"
-        print "[0]: Integers"
-        print "[1]: Gaussian Integers"
-        choice = int(raw_input("> "))
+        print("What type is your matrix?")
+        print("[0]: Integers")
+        print("[1]: Gaussian Integers")
+        choice = int(input("> "))
 
         #-------- Integers -----------#
         if (choice==0):
             print 
-            h = int(raw_input("Matrix height: "))
+            h = int(input("Matrix height: "))
             #assert h>0
-            w = int(raw_input("Matrix width:  "))
+            w = int(input("Matrix width:  "))
             #assert w>0
-            strElements = raw_input("Please enter the %d space-delineated matrix elements across rows\n"%(h*w)).split(" ")
+            strElements = input("Please enter the %d space-delineated matrix elements across rows\n"%(h*w)).split(" ")
             strElements = strElements[:h*w]
-            print
+            print()
             contents = []
             for i in range(len(strElements)):
                 contents.append(z.Z(int(strElements[i].strip())))
@@ -113,19 +113,19 @@ class Matrix(object):
 
         #----- Gaussian Integers -----#
         elif (choice ==1):
-            print 
-            h = int(raw_input("Matrix height: "))
+            print ()
+            h = int(input("Matrix height: "))
             #assert h>0
-            w = int(raw_input("Matrix width:  "))
+            w = int(input("Matrix width:  "))
             #assert w>0
-            print "Please enter the the contents of the matrix in the following way. Reading across each row from top to bottom enter the real and imaginary component of each gausian integer. Place a space between each gaussian integer component and place a space between each matrix element. Your input should contaid %d components."%(h*w*2)
+            print("Please enter the the contents of the matrix in the following way. Reading across each row from top to bottom enter the real and imaginary component of each gausian integer. Place a space between each gaussian integer component and place a space between each matrix element. Your input should contaid %d components."%(h*w*2))
 
-            strElements = raw_input().split(" ")
+            strElements = input().split(" ")
             strElements = strElements[:h*w*2]
             contents=[]
-            for i in range(len(strElements)/2):
+            for i in range(len(strElements)//2):
                 contents.append(zi.ZI(int(strElements[2*i].strip()),int(strElements[2*i+1].strip())))
             return Matrix(h,w,contents)
         else:
-            print "Sorry. That was not a valid selection."
-            print
+            print("Sorry. That was not a valid selection.")
+            print()

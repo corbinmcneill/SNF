@@ -8,8 +8,8 @@ class Z(object):
     def __mul__(x, y):
         return Z(x.a * y.a)
 
-    def __div__(x, y):
-        return Z(x.a / y.a)
+    def __floordiv__(x, y):
+        return Z(x.a // y.a)
 
     def __mod__(x, y):
         return Z(x.a % y.a)
@@ -58,7 +58,7 @@ class Z(object):
         while currentFactor <= float(aCopy):
             if aCopy % currentFactor == 0:
                 factors.append(Z(currentFactor))
-                aCopy /= currentFactor
+                aCopy //= currentFactor
             else:
                 currentFactor += 1
         if aCopy > 1:

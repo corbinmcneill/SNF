@@ -36,18 +36,18 @@ class ZI(object):
     def num(x, y):
         return ZI((x * y.com()).a, (x * y.com()).b)
 
-    def __div__(x, y):
+    def __floordiv__(x, y):
         n1 = x.num(y).a
         n2 = x.num(y).b
         d = y.a*y.a + y.b*y.b
-        comp1 = (n1 + d/2)/d
-        comp2 = (n2 + d/2)/d
+        comp1 = (n1 + d//2)//d
+        comp2 = (n2 + d//2)//d
         return ZI(comp1, comp2)
-        return ZI(int(round(float((x.num(y)).a) / (y.a * y.a + y.b * y.b))),
-                  int(round(float((x.num(y)).b) / (y.a * y.a + y.b * y.b))))
+        return ZI(int(round(float((x.num(y)).a) // (y.a * y.a + y.b * y.b))),
+                  int(round(float((x.num(y)).b) // (y.a * y.a + y.b * y.b))))
 
     def __mod__(x, y):
-        return ZI((x - y * (x / y)).a, (x - y * (x / y)).b)
+        return ZI((x - y * (x // y)).a, (x - y * (x // y)).b)
 
     def isUnit(self):
         if self.a==1 and self.b==0:
