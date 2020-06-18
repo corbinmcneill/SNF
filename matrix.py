@@ -1,7 +1,7 @@
-import z
-import zi
+import snf.z as z
+import snf.zi as zi
 
-class Matrix(object):
+class Matrix():
     def __init__(self, h, w, elements):
         self.h = h
         self.w = w
