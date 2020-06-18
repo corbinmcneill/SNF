@@ -64,8 +64,6 @@ class ZI(object):
     def getUnits():
         return [ZI(1,0),ZI(-1,0),ZI(0,1),ZI(0,-1)]
 
-        
-
     @staticmethod
     def getZero():
         return ZI(0,0)
@@ -74,7 +72,6 @@ class ZI(object):
     def getOne():
         return ZI(1,0)
 
-    def factor(self):
-        #TODO
-        return []
+    def getListOfElements(self):
+        return [self.a,self.b]
 

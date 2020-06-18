@@ -51,16 +51,5 @@ class Z(object):
     def getOne():
         return Z(1)
 
-    def factor(self):
-        factors = []
-        aCopy = self.a
-        currentFactor = 2
-        while currentFactor <= float(aCopy):
-            if aCopy % currentFactor == 0:
-                factors.append(Z(currentFactor))
-                aCopy //= currentFactor
-            else:
-                currentFactor += 1
-        if aCopy > 1:
-            factors.append(Z(currentFactor))
-        return factors
+    def getListOfElements(self):
+        return [self.a]
