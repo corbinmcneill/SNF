@@ -22,7 +22,14 @@ class ZI(object):
         return (x.a*x.a + x.b*x.b) > (y.a*y.a + y.b*y.b)
 
     def __str__(self):
-        return str(self.a) + "+(" + str(self.b)+")i"
+        if self.a == 0 and self.b == 0:
+            return "0"
+        elif self.a == 0:
+            return f"{self.b}i"
+        elif self.b == 0:
+            return f"{self.a}"
+        else:
+            return f"{self.a}{self.b:+}i"
 
     def __eq__(x,y):
         return x.a == y.a and x.b == y.b
