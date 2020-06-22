@@ -11,3 +11,5 @@ print(f"A:\n{snfProb.A}")
 print(f"J:\n{snfProb.J}")
 print(f"S:\n{snfProb.S}")
 print(f"T:\n{snfProb.T}")
+
+print(f"S*A*T == J ?: {snfProb.S * snfProb.A * snfProb.T == snfProb.J}")
