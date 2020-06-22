@@ -35,13 +35,12 @@ class Z(object):
     def __gt__(x, y):
         return x.a > y.a
 
-
     def isUnit(self):
         return (self.a == 1) or (self.a == -1)
 
     @staticmethod
     def getUnits():
-        return [Z(1),Z(-1)]
+        return [Z(1), Z(-1)]
 
     @staticmethod
     def getZero():
