@@ -1,5 +1,5 @@
-import snf.z as z
-import snf.zi as zi
+from snf import z
+from snf import zi
 
 class Matrix():
     def __init__(self, h, w, elements):
@@ -8,15 +8,12 @@ class Matrix():
         self.elements = elements
 
     def __add__(x, y):
-        #assert x.h == y.h
-        #assert x.w == y.w
         newElements = []
         for i in range(h*w):
             newElements.append(x.elements[i] + y.elements[i])
         return Matrix(x.h, x.w, newElements)
 
     def __mul__(x, y):
-        #assert x.w == y.h
         newH = x.h
         newW = y.w
         newElements = []
@@ -50,20 +47,20 @@ class Matrix():
     def determinant(self):
         assert self.h == self.w
         if (self.h==1):
-                return self.get(0,0)
+            return self.get(0,0)
 
         total = type(self.get(0,0)).getZero()
         for i in range(self.h):
-                scale = self.get(i,0)
-                if (i%2==1):
-                        scale = -scale
-                subcontent = []
-                for j in range(self.h):
-                        if i == j:
-                                continue
-                        else:
-                                for k in range(1,self.h):
-                                        subcontent.append(self.get(j,k))
+            scale = self.get(i,0)
+            if (i%2==1):
+                    scale = -scale
+            subcontent = []
+            for j in range(self.h):
+                if i == j:
+                    continue
+                else:
+                    for k in range(1,self.h):
+                        subcontent.append(self.get(j,k))
                 total += scale * Matrix(self.h-1, self.h-1, subcontent).determinant()
         return total
                                         
