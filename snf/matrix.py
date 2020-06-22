@@ -48,25 +48,25 @@ class Matrix():
         return not x == y
 
     def determinant(self):
-    	assert self.h == self.w
-    	if (self.h==1):
-    		return self.get(0,0)
+        assert self.h == self.w
+        if (self.h==1):
+                return self.get(0,0)
 
-    	total = type(self.get(0,0)).getZero()
-    	for i in range(self.h):
-    		scale = self.get(i,0)
-    		if (i%2==1):
-    			scale = -scale
-    		subcontent = []
-    		for j in range(self.h):
-    			if i == j:
-    				continue
-    			else:
-    				for k in range(1,self.h):
-    					subcontent.append(self.get(j,k))
-    		total += scale * Matrix(self.h-1, self.h-1, subcontent).determinant()
-    	return total
-    					
+        total = type(self.get(0,0)).getZero()
+        for i in range(self.h):
+                scale = self.get(i,0)
+                if (i%2==1):
+                        scale = -scale
+                subcontent = []
+                for j in range(self.h):
+                        if i == j:
+                                continue
+                        else:
+                                for k in range(1,self.h):
+                                        subcontent.append(self.get(j,k))
+                total += scale * Matrix(self.h-1, self.h-1, subcontent).determinant()
+        return total
+                                        
     @staticmethod
     def id(dim, elementType):
         elements = [elementType.getZero() for i in range(dim*dim)]
