@@ -30,10 +30,10 @@ class Z(object):
         return x.a != y.a
 
     def __lt__(x, y):
-        return x.a < y.a
+        return (x.a * x.a) < (y.a * y.a)
 
     def __gt__(x, y):
-        return x.a > y.a
+        return (x.a * x.a) > (y.a * y.a)
 
     def isUnit(self):
         return (self.a == 1) or (self.a == -1)

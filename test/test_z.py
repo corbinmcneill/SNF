@@ -18,7 +18,7 @@ def test_eq_neq():
     assert(not (original != same))
 
 
-def test_lt_gt():
+def test_lt_gt_simple():
     negative = z.Z(-1)
     positive = z.Z(2)
     positive_again = z.Z(2)
@@ -36,6 +36,12 @@ def test_lt_gt():
     assert(not positive < positive)
     assert(not positive > positive)
 
+def test_lt_gt_is_using_norm():
+    negative = z.Z(-10)
+    positive = z.Z(2)
+
+    assert(negative > positive)
+    assert(positive < negative)
 
 def test_string():
     pos = 2
