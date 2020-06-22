@@ -6,19 +6,19 @@ class ZI(object):
     def __neg__(x):
         return ZI(-x.a, -x.b)
 
-    def __mul__(x,y):
+    def __mul__(x, y):
         return ZI(x.a*y.a - x.b*y.b, x.a*y.b + x.b*y.a)
 
-    def __add__(x,y):
+    def __add__(x, y):
         return ZI(x.a + y.a, x.b + y.b)
-    
-    def __sub__(x,y):
+
+    def __sub__(x, y):
         return ZI(x.a - y.a, x.b - y.b)
 
-    def __lt__(x,y):
+    def __lt__(x, y):
         return (x.a*x.a + x.b*x.b) < (y.a*y.a + y.b*y.b)
 
-    def __gt__(x,y):
+    def __gt__(x, y):
         return (x.a*x.a + x.b*x.b) > (y.a*y.a + y.b*y.b)
 
     def __str__(self):
@@ -31,10 +31,10 @@ class ZI(object):
         else:
             return f"{self.a}{self.b:+}i"
 
-    def __eq__(x,y):
+    def __eq__(x, y):
         return x.a == y.a and x.b == y.b
 
-    def __ne__(x,y):
+    def __ne__(x, y):
         return not x == y
 
     def com(x):
@@ -57,28 +57,27 @@ class ZI(object):
         return ZI((x - y * (x // y)).a, (x - y * (x // y)).b)
 
     def isUnit(self):
-        if self.a==1 and self.b==0:
+        if self.a == 1 and self.b == 0:
             return True
-        elif self.a==-1 and self.b==0:
+        elif self.a == -1 and self.b == 0:
             return True
-        elif self.a==0 and self.b==1:
+        elif self.a == 0 and self.b == 1:
             return True
-        elif self.a==0 and self.b==-1:
+        elif self.a == 0 and self.b == -1:
             return True
         return False
 
     @staticmethod
     def getUnits():
-        return [ZI(1,0),ZI(-1,0),ZI(0,1),ZI(0,-1)]
+        return [ZI(1, 0), ZI(-1, 0), ZI(0, 1), ZI(0, -1)]
 
     @staticmethod
     def getZero():
-        return ZI(0,0)
+        return ZI(0, 0)
 
     @staticmethod
     def getOne():
-        return ZI(1,0)
+        return ZI(1, 0)
 
     def getListOfElements(self):
-        return [self.a,self.b]
-
+        return [self.a, self.b]
