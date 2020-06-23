@@ -1,6 +1,6 @@
 import pytest
 import random as rand
-from snf import matrix, snfproblem, z, zi
+from smithnormalform import matrix, snfproblem, z, zi
 
 
 start_seed = 1000

@@ -1,4 +1,4 @@
-from snf import matrix
+from smithnormalform import matrix
 
 
 class SNFProblem():

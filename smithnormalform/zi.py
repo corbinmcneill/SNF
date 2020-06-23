@@ -1,4 +1,4 @@
-from snf import pid
+from smithnormalform import pid
 
 
 class ZI(pid.PID):
