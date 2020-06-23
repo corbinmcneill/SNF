@@ -14,6 +14,6 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/corbinmcneill/snf",
     packages=setuptools.find_packages(),
-    classifiers=["abstract algebra", "math", "principle ideal domain", "pid"],
+    classifiers=[],
     python_requires='>=3.6',
 )
