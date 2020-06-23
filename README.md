@@ -1,4 +1,5 @@
 ![Python package](https://github.com/corbinmcneill/SNF/workflows/Python%20package/badge.svg)
+![Upload Python Package](https://github.com/corbinmcneill/SNF/workflows/Upload%20Python%20Package/badge.svg)
 
 # SNF
 
