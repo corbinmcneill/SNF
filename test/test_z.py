@@ -1,4 +1,4 @@
-from snf import z
+from smithnormalform import z
 
 
 def test_creation():

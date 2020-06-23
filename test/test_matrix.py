@@ -1,4 +1,4 @@
-from snf import matrix, z
+from smithnormalform import matrix, z
 import pytest
 
 
