@@ -1,6 +1,3 @@
-from snf import z
-from snf import zi
-
 class Matrix():
     def __init__(self, h, w, elements):
         self.h = h
@@ -9,7 +6,7 @@ class Matrix():
 
     def __add__(x, y):
         newElements = []
-        for i in range(h*w):
+        for i in range(x.h * x.w):
             newElements.append(x.elements[i] + y.elements[i])
         return Matrix(x.h, x.w, newElements)
 
@@ -19,7 +16,7 @@ class Matrix():
         newElements = []
         for i in range(newH):
             for j in range(newW):
-                newElement = x.elements[0].getZero();
+                newElement = x.elements[0].getZero()
                 for k in range(x.w):
                     newElement += (x.get(i, k) * y.get(k, j))
                 newElements.append(newElement)
@@ -29,11 +26,11 @@ class Matrix():
         result = ""
         for i in range(self.h):
             for j in range(self.w):
-                result += (str(self.get(i,j)) + " ")
+                result += (str(self.get(i, j)) + " ")
             result += "\n"
         return result
 
-    def __eq__(x,y):
+    def __eq__(x, y):
         if x.h != y.h or x.w != y.w:
             return False
         for i in range(x.w * x.h):
@@ -41,29 +38,29 @@ class Matrix():
                 return False
         return True
 
-    def __ne__(x,y):
+    def __ne__(x, y):
         return not x == y
 
     def determinant(self):
-        assert self.h == self.w
-        if (self.h==1):
-            return self.get(0,0)
+        if (self.h == 1):
+            return self.get(0, 0)
 
-        total = type(self.get(0,0)).getZero()
+        total = type(self.get(0, 0)).getZero()
         for i in range(self.h):
-            scale = self.get(i,0)
-            if (i%2==1):
-                    scale = -scale
+            scale = self.get(i, 0)
+            if (i % 2 == 1):
+                scale = -scale
             subcontent = []
             for j in range(self.h):
                 if i == j:
                     continue
                 else:
-                    for k in range(1,self.h):
-                        subcontent.append(self.get(j,k))
-                total += scale * Matrix(self.h-1, self.h-1, subcontent).determinant()
+                    for k in range(1, self.h):
+                        subcontent.append(self.get(j, k))
+            subMatrix = Matrix(self.h-1, self.h-1, subcontent)
+            total += scale * subMatrix.determinant()
         return total
-                                        
+
     @staticmethod
     def id(dim, elementType):
         elements = [elementType.getZero() for i in range(dim*dim)]
@@ -72,15 +69,10 @@ class Matrix():
         return Matrix(dim, dim, elements)
 
     def get(self, i, j):
-        #assert i>=0 and i<self.h
-        #assert j>=0 and j<self.w
         return self.elements[i*self.w + j]
 
     def set(self, i, j, e):
-        #assert i>=0 and i<self.h
-        #assert j>=0 and j<self.w
         self.elements[i*self.w + j] = e
 
     def copy(self):
         return Matrix(self.h, self.w, self.elements[:])
-
