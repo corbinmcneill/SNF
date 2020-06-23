@@ -11,20 +11,37 @@ class SNFProblem():
         self.S = matrix.Matrix.id(A.h, type(A.get(0,0)))
         self.T = matrix.Matrix.id(A.w, type(A.get(0,0)))
 
+    def test_valid(self):
+        isValid = True
+        if not self.S.determinant().isUnit():
+            isValid = False
+        elif not self.T.determinant().isUnit():
+            isValid = False
+
+        if not isValid:
+            import pdb; pdb.set_trace()
+
+        return
+
     def cSwap(self,i,j):
+        if i==j:
+            return
+
         #perform the column swap to J
         for k in range(self.J.h):
                 temp = self.J.get(k, i)
                 self.J.set(k,i,self.J.get(k,j))
-                J.set(k,j, temp)
+                self.J.set(k,j, temp)
 
         #adjust the T matrix
-        adjustment = matrix.Matrix.id(self.T.h, selfelementT)
+        adjustment = matrix.Matrix.id(self.T.h, self.elementT)
         adjustment.set(i,i,self.elementT.getZero())
         adjustment.set(j,j,self.elementT.getZero())
         adjustment.set(i,j,self.elementT.getOne())
         adjustment.set(j,i,self.elementT.getOne())
         self.T = self.T*adjustment
+
+        self.test_valid()
 
     def cLC(self,I,i,j,a,b,gcd=None):
         #perform the linear column application to J
@@ -50,8 +67,12 @@ class SNFProblem():
             adjustment.set(j,j,d)
 
         self.T = self.T*adjustment
+        self.test_valid()
 
     def rSwap(self,i,j):
+        if i==j:
+            return
+
         #perform the row swap to self.J
         for k in range(self.J.w):
             temp = self.J.get(i, k)
@@ -65,6 +86,7 @@ class SNFProblem():
         adjustment.set(i,i,self.elementT.getZero())
         adjustment.set(j,j,self.elementT.getZero())
         self.S = adjustment*self.S
+        self.test_valid()
 
     def rLC(self,I,i,j,a,b,gcd=None):
         if (gcd is None or a.isUnit()):
@@ -88,6 +110,7 @@ class SNFProblem():
             adjustment.set(j,i,c)
             adjustment.set(j,j,d)
         self.S = adjustment*self.S
+        self.test_valid()
 
     @staticmethod
     def euclid(a, b):
