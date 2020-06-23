@@ -107,19 +107,3 @@ def test_is_unit():
     assert(not zi.ZI(2, 0).isUnit())
     assert(not zi.ZI(1, -5).isUnit())
     assert(not (-zi.ZI(1, 1)).isUnit())
-
-
-def test_get_list_same():
-    a = 8
-    b = -3
-    first_list = [a, b]
-    second_list = zi.ZI(a, b).getListOfElements()
-
-    assert(first_list == second_list)
-
-
-def test_get_list_different():
-    a = 1
-    b = -1
-
-    assert(zi.ZI(a, b).getListOfElements() != zi.ZI(b, a).getListOfElements())

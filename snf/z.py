@@ -1,53 +1,42 @@
-class Z(object):
+from snf import pid
+
+
+class Z(pid.PID):
     def __init__(self, a):
         self.a = a
-
-    def __neg__(x):
-        return Z(-x.a)
-
-    def __mul__(x, y):
-        return Z(x.a * y.a)
-
-    def __floordiv__(x, y):
-        return Z(x.a // y.a)
-
-    def __mod__(x, y):
-        return Z(x.a % y.a)
-
-    def __add__(x, y):
-        return Z(x.a + y.a)
-
-    def __sub__(x, y):
-        return Z(x.a - y.a)
 
     def __str__(self):
         return str(self.a)
 
-    def __eq__(x, y):
-        return x.a == y.a
+    def __eq__(self, x):
+        return self.a == x.a
 
-    def __ne__(x, y):
-        return x.a != y.a
+    def __ne__(self, x):
+        return self.a != x.a
 
-    def __lt__(x, y):
-        return (x.a * x.a) < (y.a * y.a)
+    def __lt__(self, x):
+        return (self.a * self.a) < (x.a * x.a)
 
-    def __gt__(x, y):
-        return (x.a * x.a) > (y.a * y.a)
+    def __gt__(self, x):
+        return (self.a * self.a) > (x.a * x.a)
 
-    def isUnit(self):
-        return (self.a == 1) or (self.a == -1)
+    def __neg__(self):
+        return Z(-self.a)
 
-    def isUnitMultipleOf(self, x):
-        if not (self % x) == self.getZero():
-            return False
-        if not (self // x).isUnit():
-            return False
-        return True
+    def __add__(self, x):
+        return Z(self.a + x.a)
 
-    @staticmethod
-    def getUnits():
-        return [Z(1), Z(-1)]
+    def __sub__(self, x):
+        return Z(self.a - x.a)
+
+    def __mul__(self, x):
+        return Z(self.a * x.a)
+
+    def __floordiv__(self, x):
+        return Z(self.a // x.a)
+
+    def __mod__(self, x):
+        return Z(self.a % x.a)
 
     @staticmethod
     def getZero():
@@ -57,5 +46,5 @@ class Z(object):
     def getOne():
         return Z(1)
 
-    def getListOfElements(self):
-        return [self.a]
+    def isUnit(self):
+        return (self.a == 1) or (self.a == -1)
