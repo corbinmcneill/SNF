@@ -14,14 +14,54 @@ class SNFProblem():
         self.debug = debug
 
     def isValid(self):
+        # check that S is unimodular
         if not self.S.determinant().isUnit():
-            return False
-        elif not self.T.determinant().isUnit():
-            return False
-        elif not self.S*self.A*self.T == self.J:
+            print(1)
             return False
 
+        # check that T is unimodular
+        elif not self.T.determinant().isUnit():
+            print(2)
+            return False
+        
+        # check that the desired product relation holds
+        elif not self.S*self.A*self.T == self.J:
+            print(3)
+            return False
+
+        # check that self.J is in smith normal form
+        #
+        # first we check that elements outside the diagonal are zero
+        zero = self.elementT.getZero()
+        for i in range(self.J.h):
+            for j in range(self.J.w):
+                if i != j and self.J.get(i, j) != zero:
+                    print(4)
+                    return False
+
+        # then we check that diagonal elements divide each other until a zero
+        # is found and then all remaining diagonal elements are zero
+        diagLength = min(self.J.h, self.J.w)
+        if diagLength > 1:
+            lastDiag = self.J.get(0,0)
+            seenZero = (lastDiag == zero)
+            for i in range(1, diagLength):
+                currentDiag = self.J.get(i, i)
+                if currentDiag == zero:
+                    seenZero = True
+
+                if seenZero and currentDiag != zero:
+                    print(5)
+                    return False
+
+                if not seenZero and currentDiag % lastDiag != zero:
+                    print(6)
+                    return False
+
+        # if all of the checks pass then this is a valid completed SNF problem
+        print(7)
         return True
+
 
     def cSwap(self,i,j):
         if self.debug:
