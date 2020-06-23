@@ -36,12 +36,14 @@ def test_lt_gt_simple():
     assert(not positive < positive)
     assert(not positive > positive)
 
+
 def test_lt_gt_is_using_norm():
     negative = z.Z(-10)
     positive = z.Z(2)
 
     assert(negative > positive)
     assert(positive < negative)
+
 
 def test_string():
     pos = 2

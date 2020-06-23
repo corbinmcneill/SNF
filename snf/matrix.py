@@ -1,16 +1,37 @@
+class IncompatibleMatrixSizesException(Exception):
+    pass
+
+
+class MatrixNotSquareException(Exception):
+    pass
+
+
+class InvalidNumberOfElements(Exception):
+    pass
+
+
 class Matrix():
     def __init__(self, h, w, elements):
+        if len(elements) != h*w:
+            raise InvalidNumberOfElements
+
         self.h = h
         self.w = w
         self.elements = elements
 
     def __add__(x, y):
+        if x.h != y.h or x.w != y.w:
+            raise IncompatibleMatrixSizesException
+
         newElements = []
         for i in range(x.h * x.w):
             newElements.append(x.elements[i] + y.elements[i])
         return Matrix(x.h, x.w, newElements)
 
     def __mul__(x, y):
+        if x.w != y.h:
+            raise IncompatibleMatrixSizesException
+
         newH = x.h
         newW = y.w
         newElements = []
@@ -25,9 +46,9 @@ class Matrix():
     def __str__(self):
         result = ""
         for i in range(self.h):
-            for j in range(self.w):
-                result += (str(self.get(i, j)) + " ")
-            result += "\n"
+            row = self.elements[i*self.w:(i+1)*self.w]
+            internal_string = ' '.join(list(map(str, row)))
+            result += "[{}]\n".format(internal_string)
         return result
 
     def __eq__(x, y):
@@ -42,6 +63,9 @@ class Matrix():
         return not x == y
 
     def determinant(self):
+        if self.h != self.w:
+            raise MatrixNotSquareException()
+
         if (self.h == 1):
             return self.get(0, 0)
 
