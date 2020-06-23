@@ -13,17 +13,15 @@ class SNFProblem():
 
         self.debug = debug
 
-    def test_valid(self):
-        isValid = True
+    def isValid(self):
         if not self.S.determinant().isUnit():
-            isValid = False
+            return False
         elif not self.T.determinant().isUnit():
-            isValid = False
+            return False
+        elif not self.S*self.A*self.T == self.J:
+            return False
 
-        if not isValid:
-            import pdb; pdb.set_trace()
-
-        return
+        return True
 
     def cSwap(self,i,j):
         if self.debug:
@@ -45,8 +43,6 @@ class SNFProblem():
         adjustment.set(i,j,self.elementT.getOne())
         adjustment.set(j,i,self.elementT.getOne())
         self.T = self.T*adjustment
-
-        self.test_valid()
 
     def cLC(self,I,i,j,a,b,gcd=None):
         if self.debug:
@@ -75,7 +71,6 @@ class SNFProblem():
             adjustment.set(j,j,d)
 
         self.T = self.T*adjustment
-        self.test_valid()
 
     def rSwap(self,i,j):
         if self.debug:
@@ -97,7 +92,6 @@ class SNFProblem():
         adjustment.set(i,i,self.elementT.getZero())
         adjustment.set(j,j,self.elementT.getZero())
         self.S = adjustment*self.S
-        self.test_valid()
 
     def rLC(self,I,i,j,a,b,gcd=None):
         if self.debug:
@@ -124,7 +118,6 @@ class SNFProblem():
             adjustment.set(j,i,c)
             adjustment.set(j,j,d)
         self.S = adjustment*self.S
-        self.test_valid()
 
     @staticmethod
     def euclid(a, b):
