@@ -38,6 +38,13 @@ class Z(object):
     def isUnit(self):
         return (self.a == 1) or (self.a == -1)
 
+    def isUnitMultipleOf(self, x):
+        if not (self % x) == self.getZero():
+            return False
+        if not (self // x).isUnit():
+            return False
+        return True
+
     @staticmethod
     def getUnits():
         return [Z(1), Z(-1)]

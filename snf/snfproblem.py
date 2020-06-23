@@ -185,36 +185,20 @@ class SNFProblem():
                 doneIteration = True
                 for j in range(i+1, self.J.h):
                     gcd, x, y = SNFProblem.euclid(self.J.get(i,i), self.J.get(j,i))
-                    if (gcd < self.elementT.getZero()):
-                        gcd = -gcd
-                        x = -x
-                        y = -y
-                    if gcd == self.J.get(i,i):
+                    if self.J.get(i, i).isUnitMultipleOf(gcd):
                         pass
-                    elif gcd == self.J.get(j,i):
+                    elif self.J.get(j,i).isUnitMultipleOf(gcd):
                         self.rSwap(i,j)
-                        doneIteration=False
-                    elif gcd == -self.J.get(j,i):
-                        self.rSwap(i,j)
-                        self.rLC(i,i,i,-self.elementT.getOne(), self.elementT.getZero(),gcd)
                         doneIteration=False
                     elif gcd < self.J.get(i,i) or gcd < -self.J.get(i,i):
                         self.rLC(i, i, j, x, y, gcd)
                         doneIteration=False
                 for j in range(i+1, self.J.w):
                     gcd, x, y = SNFProblem.euclid(self.J.get(i,i), self.J.get(i,j))
-                    if (gcd < self.elementT.getZero()):
-                        gcd = -gcd
-                        x = -x
-                        y = -y
-                    if gcd == self.J.get(i,i):
+                    if self.J.get(i,i).isUnitMultipleOf(gcd):
                         pass
-                    elif gcd == self.J.get(i,j):
+                    elif self.J.get(i,j).isUnitMultipleOf(gcd):
                         self.cSwap(i,j)
-                        doneIteration=False
-                    elif gcd == -self.J.get(i,j): #TODO WORK THIS BLOCK
-                        self.cSwap(i,j)
-                        self.cLC(i,i,i,-self.elementT.getOne(), self.elementT.getZero(),gcd)
                         doneIteration=False
                     elif gcd < self.J.get(i,i) or gcd < -self.J.get(i,i):
                         self.cLC(i, i, j, x, y, gcd)

@@ -67,6 +67,13 @@ class ZI(object):
             return True
         return False
 
+    def isUnitMultipleOf(self, x):
+        if not (self % x) == self.getZero():
+            return False
+        if not (self // x).isUnit():
+            return False
+        return True
+
     @staticmethod
     def getUnits():
         return [ZI(1, 0), ZI(-1, 0), ZI(0, 1), ZI(0, -1)]
