@@ -1,3 +1,6 @@
 *.pyc
 __pycache__
 *.pdf
+build
+dist
+*.egg-info
