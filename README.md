@@ -1,3 +1,5 @@
+![Python package](https://github.com/corbinmcneill/SNF/workflows/Python%20package/badge.svg)
+
 # SNF
 
 This project is a python package implementing the calculation of Smith Normal
