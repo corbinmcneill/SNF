@@ -2,12 +2,14 @@ import pytest
 import random as rand
 from snf import matrix, snfproblem, z, zi
 
+
 start_seed = 1000
 number_of_seeds = 10
 
 seeds = list(range(start_seed, start_seed + number_of_seeds))
-sizes = [(1,1), (2,2), (3,3), (2,6), (6,2), (5,5)]
+sizes = [(1, 1), (2, 2), (3, 3), (2, 6), (6, 2), (5, 5)]
 abslimits = [1, 10, 100, 10000]
+
 
 @pytest.mark.parametrize("random_seed", seeds)
 @pytest.mark.parametrize("size", sizes)
@@ -26,6 +28,7 @@ def test_snfproblem_z(random_seed, size, abslimit):
     prob.computeSNF()
 
     assert(prob.isValid())
+
 
 @pytest.mark.parametrize("random_seed", seeds)
 @pytest.mark.parametrize("size", sizes)
