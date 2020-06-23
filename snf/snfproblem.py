@@ -4,12 +4,14 @@ from snf import zi
 
 
 class SNFProblem():
-    def __init__(self, A):
+    def __init__(self, A, debug=False):
         self.A = A.copy()
         self.elementT = type(A.get(0,0))
         self.J = A.copy()
         self.S = matrix.Matrix.id(A.h, type(A.get(0,0)))
         self.T = matrix.Matrix.id(A.w, type(A.get(0,0)))
+
+        self.debug = debug
 
     def test_valid(self):
         isValid = True
@@ -24,14 +26,17 @@ class SNFProblem():
         return
 
     def cSwap(self,i,j):
+        if self.debug:
+            print("cSwap call")
+
         if i==j:
             return
 
         #perform the column swap to J
         for k in range(self.J.h):
-                temp = self.J.get(k, i)
-                self.J.set(k,i,self.J.get(k,j))
-                self.J.set(k,j, temp)
+            temp = self.J.get(k, i)
+            self.J.set(k,i,self.J.get(k,j))
+            self.J.set(k,j, temp)
 
         #adjust the T matrix
         adjustment = matrix.Matrix.id(self.T.h, self.elementT)
@@ -44,6 +49,9 @@ class SNFProblem():
         self.test_valid()
 
     def cLC(self,I,i,j,a,b,gcd=None):
+        if self.debug:
+            print("cLC call")
+
         #perform the linear column application to J
         if gcd is None or a.isUnit():
             c = self.elementT.getZero()
@@ -70,6 +78,9 @@ class SNFProblem():
         self.test_valid()
 
     def rSwap(self,i,j):
+        if self.debug:
+            print("rSwap call")
+
         if i==j:
             return
 
@@ -89,6 +100,9 @@ class SNFProblem():
         self.test_valid()
 
     def rLC(self,I,i,j,a,b,gcd=None):
+        if self.debug:
+            print("rLC call")
+
         if (gcd is None or a.isUnit()):
             c=self.elementT.getZero()
             d=self.elementT.getOne()
