@@ -30,7 +30,7 @@ def test_snfproblem_z(random_seed, size, abslimit):
 @pytest.mark.parametrize("random_seed", seeds)
 @pytest.mark.parametrize("size", sizes)
 @pytest.mark.parametrize("abslimit", abslimits)
-def test_snfproblem_z(random_seed, size, abslimit):
+def test_snfproblem_zi(random_seed, size, abslimit):
     rand.seed(random_seed)
 
     h = size[0]
