@@ -1,7 +1,6 @@
 from snf import matrix
 from snf import snfproblem
 from snf import z
-from snf import zi
 import random as rand
 
 
