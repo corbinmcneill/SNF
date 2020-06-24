@@ -1,4 +1,5 @@
 ![Python package](https://github.com/corbinmcneill/SNF/workflows/Python%20package/badge.svg)
+[![PyPI version](https://badge.fury.io/py/smithnormalform.svg)](https://badge.fury.io/py/smithnormalform)
 
 # SNF
 
