@@ -12,14 +12,9 @@ script:
 - make test
 - make lint
 
-jobs:
-  include:
-    - stage: deploy
-      python: 3.8
-      script: echo hello
-      if: branch = deploy
-      deploy:
-        provider: script
-        script: echo world
-        on:
-          branch: deploy
+deploy:
+  provider: script
+  script: echo "hello world"
+  on:
+    tags: true
+    python: '3.8'
