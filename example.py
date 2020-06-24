@@ -4,7 +4,7 @@ from snf import z
 import random as rand
 
 
-rand.seed(1002)
+rand.seed(1001)
 
 snfContents = [rand.randrange(-10, 10) for _ in range(4)]
 snfMatrix = matrix.Matrix(2, 2, [z.Z(x) for x in snfContents])
