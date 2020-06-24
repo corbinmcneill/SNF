@@ -21,3 +21,5 @@ jobs:
       deploy:
         provider: script
         script: echo world
+        on:
+          branch: release
