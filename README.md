@@ -1,5 +1,6 @@
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/smithnormalform)
-[![Build Status](https://travis-ci.org/corbinmcneill/SNF.svg?branch=master)](https://travis-ci.org/corbinmcneill/SNF)[![PyPI version](https://badge.fury.io/py/smithnormalform.svg)](https://badge.fury.io/py/smithnormalform)
+[![Build Status](https://travis-ci.org/corbinmcneill/SNF.svg?branch=master)](https://travis-ci.org/corbinmcneill/SNF)
+[![PyPI version](https://badge.fury.io/py/smithnormalform.svg)](https://badge.fury.io/py/smithnormalform)
 
 # SNF
 
