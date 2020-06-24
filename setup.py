@@ -23,7 +23,7 @@ setuptools.setup(
         "Natural Language :: English",
         "Operating System :: OS Independent",
         "Topic :: Scientific/Engineering",
-        "Topic :: Scientific/Engineering :: Mathematics" ],
+        "Topic :: Scientific/Engineering :: Mathematics"],
 
     python_requires='>=3.6'
 )
