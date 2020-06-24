@@ -14,6 +14,16 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/corbinmcneill/snf",
     packages=setuptools.find_packages(),
-    classifiers=[],
-    python_requires='>=3.6',
+    classifiers=[
+        "Python :: 3.6",
+        "Python :: 3.7",
+        "Python :: 3.8",
+        "Intended Audience :: Science/Research",
+        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+        "Natural Language :: English",
+        "Operating System :: OS Independent",
+        "Topic :: Scientific/Engineering",
+        "Topic :: Scientific/Engineering :: Mathematics"],
+
+    python_requires='>=3.6'
 )
