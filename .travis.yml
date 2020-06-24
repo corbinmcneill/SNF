@@ -20,5 +20,3 @@ jobs:
       build:
         provider: script
         script: echo "this is a deploy"
-        on:
-          tags: true
