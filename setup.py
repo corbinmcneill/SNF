@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="smithnormalform",
-    version="0.1.6",
+    version="0.1.7",
     author="Corbin McNeill",
     author_email="corbin.mc96@gmail.com",
     description=("A tool for computing the Smith Normal Forms " +
