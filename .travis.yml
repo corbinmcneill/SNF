@@ -14,8 +14,10 @@ script:
 
 jobs:
   include:
-    - stage: build
+    - stage: deploy
       python: 3.6
-      script: echo deploy
-     
-
+      build:
+        provider: script
+        script: echo "this is a deploy"
+        on:
+          tags: true
