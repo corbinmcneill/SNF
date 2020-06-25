@@ -17,6 +17,9 @@ class ZI(ed.ED):
         else:
             return f"{self.a}{self.b:+}i"
 
+    def __hash__(self):
+        return hash((self.a, self.b))
+
     def __eq__(x, y):
         return x.a == y.a and x.b == y.b
 

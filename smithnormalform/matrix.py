@@ -11,6 +11,9 @@ class InvalidNumberOfElements(Exception):
 
 
 class Matrix():
+
+    _determinant_saves = {}
+
     def __init__(self, h, w, elements):
         if len(elements) != h*w:
             raise InvalidNumberOfElements
@@ -69,6 +72,10 @@ class Matrix():
         if (self.h == 1):
             return self.get(0, 0)
 
+        elements_tuple = tuple(self.elements)
+        if elements_tuple in Matrix._determinant_saves:
+            return Matrix._determinant_saves[elements_tuple]
+
         total = type(self.get(0, 0)).getZero()
         for i in range(self.h):
             scale = self.get(i, 0)
@@ -83,6 +90,8 @@ class Matrix():
                         subcontent.append(self.get(j, k))
             subMatrix = Matrix(self.h-1, self.h-1, subcontent)
             total += scale * subMatrix.determinant()
+
+        Matrix._determinant_saves[elements_tuple] = total
         return total
 
     @staticmethod

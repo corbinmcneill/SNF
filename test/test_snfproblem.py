@@ -7,7 +7,7 @@ start_seed = 1000
 number_of_seeds = 10
 
 seeds = list(range(start_seed, start_seed + number_of_seeds))
-sizes = [(1, 1), (2, 2), (3, 3), (2, 6), (6, 2), (5, 5)]
+sizes = [(1, 1), (2, 2), (3, 3), (2, 6), (6, 2), (5, 5), (8, 8)]
 abslimits = [1, 10, 100, 10000]
 
 

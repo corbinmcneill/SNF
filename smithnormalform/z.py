@@ -8,6 +8,9 @@ class Z(ed.ED):
     def __str__(self):
         return str(self.a)
 
+    def __hash__(self):
+        return hash(self.a)
+
     def __eq__(self, x):
         return self.a == x.a
 
