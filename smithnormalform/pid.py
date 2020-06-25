@@ -4,42 +4,54 @@ from abc import ABC, abstractmethod
 class PID(ABC):
 
     @abstractmethod
-    def __str__(self): pass
+    def __str__(self):
+        pass
 
     @abstractmethod
-    def __eq__(self, x): pass
+    def __eq__(self, x):
+        pass
 
     @abstractmethod
-    def __ne__(self, x): pass
+    def __ne__(self, x):
+        pass
 
     @abstractmethod
-    def __neg__(self): pass
+    def __neg__(self):
+        pass
 
     @abstractmethod
-    def __add__(self, x): pass
+    def __add__(self, x):
+        pass
 
     @abstractmethod
-    def __sub__(self, x): pass
+    def __sub__(self, x):
+        pass
 
     @abstractmethod
-    def __mul__(self, x): pass
+    def __mul__(self, x):
+        pass
 
     @abstractmethod
-    def __floordiv__(self, x): pass
+    def __floordiv__(self, x):
+        pass
 
     @abstractmethod
-    def __mod__(self, x): pass
+    def __mod__(self, x):
+        pass
 
     @staticmethod
     @abstractmethod
-    def getZero(): pass
+    def getZero():
+        pass
 
     @staticmethod
     @abstractmethod
-    def getOne(): pass
+    def getOne():
+        pass
 
     @abstractmethod
-    def isUnit(self): pass
+    def isUnit(self):
+        pass
 
     def isUnitMultipleOf(self, x):
         if not (self % x) == self.getZero():
