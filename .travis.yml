@@ -12,12 +12,15 @@ script:
 - make test
 - make lint
 
-deploy:
-  provider: pypi
-  distributions: "sdist bdist_wheel"
-  username: "__token__"
-  password:
-    secure: CYGZZS3GJVPH8w4Pq0t7TfimhmQLo89GNReHpzm8gUReQ7SrNj0N29Mjbfr7ZKeUoa/ndasbwxksLdtgsJi5rrGZV8daXUdY3J9vXfcju8ngN3JYwEGY4N02BitqWXEhLQtFm7DNK9M0xz2uwqo6gBK6255cSXknE8RJtOLkmxG9mcnmS2o/5xwvBiJ2isieCb1PMTwCu7cBTOWXT7gJXHtu9UgPjH3X0mrN56ksjECzT+fmZMrIYk6fbkP/uBa1LqRZe4Aqd2n+JBIiIem7GZMw/FjrPhZEGkEzIERZa5VuMrkuIsDwwzM9BhubbIS/SNSwqHuASI/I6C1eCXBz4bBLqSzOopxNHi0SF7WUFDr6XzBpSUSjxhYHnexxP5PEm4ej2aUVMW9Gm84ozod2nh11maoiv8Wz+Tzz7kT9Gp1YdVAqRVH+yw2Nt661HyLpleicABHpwFqXE9zg0cEQPSA4wgDwCkm5pdfjcTTan/iZ4AAp0fNWtJoKbBbSR6Ml/ztVGK0Hx33ftNU0HgGnO/AGJPIlXQBGF6Po7jufNrxGtWOMTKUzcA9fFxw/rru1mnl7P8bXJ0KKU6RVwa5s04p+frupKJ0F+cLaJt/pWR/vGinVflxQtL/ZVu4DNoafaOBw/fHH5wTK1VtxLQw1Zgdef1Ur6hZxPFK1q3MUjgE=
-  on:
-    tags: true
-    python: '3.8'
+jobs:
+  include:
+    - stage: deploy
+      python: '3.8'
+      deploy: 
+        provider: pypi
+        distributions: "sdist bdist_wheel"
+        on:
+          tags: true
+        username: "__token__"
+        password:
+          secure: CYGZZS3GJVPH8w4Pq0t7TfimhmQLo89GNReHpzm8gUReQ7SrNj0N29Mjbfr7ZKeUoa/ndasbwxksLdtgsJi5rrGZV8daXUdY3J9vXfcju8ngN3JYwEGY4N02BitqWXEhLQtFm7DNK9M0xz2uwqo6gBK6255cSXknE8RJtOLkmxG9mcnmS2o/5xwvBiJ2isieCb1PMTwCu7cBTOWXT7gJXHtu9UgPjH3X0mrN56ksjECzT+fmZMrIYk6fbkP/uBa1LqRZe4Aqd2n+JBIiIem7GZMw/FjrPhZEGkEzIERZa5VuMrkuIsDwwzM9BhubbIS/SNSwqHuASI/I6C1eCXBz4bBLqSzOopxNHi0SF7WUFDr6XzBpSUSjxhYHnexxP5PEm4ej2aUVMW9Gm84ozod2nh11maoiv8Wz+Tzz7kT9Gp1YdVAqRVH+yw2Nt661HyLpleicABHpwFqXE9zg0cEQPSA4wgDwCkm5pdfjcTTan/iZ4AAp0fNWtJoKbBbSR6Ml/ztVGK0Hx33ftNU0HgGnO/AGJPIlXQBGF6Po7jufNrxGtWOMTKUzcA9fFxw/rru1mnl7P8bXJ0KKU6RVwa5s04p+frupKJ0F+cLaJt/pWR/vGinVflxQtL/ZVu4DNoafaOBw/fHH5wTK1VtxLQw1Zgdef1Ur6hZxPFK1q3MUjgE=
