@@ -16,7 +16,7 @@ class ED(pid.PID):
 
     # in addition to the norm it is required x.__floordiv__(y) and x.__mod__(y)
     # return q and r respectively such x = q*y + r is a euclidean relation
-    
+
     @abstractmethod
     def get_q(self, x):
         pass

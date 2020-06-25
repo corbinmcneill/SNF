@@ -74,6 +74,6 @@ class PID(ABC):
         extended gcd.  Rather than implmenenting the extended euclidean
         algorithm yourself, you should instead have your PID inherit from
         smithnormalform.ed.ED instead, which will cause extended_gcd to be
-        implemented for you.  
+        implemented for you.
         """
         pass
