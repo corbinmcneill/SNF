@@ -92,7 +92,7 @@ True
 Adding New Principle Ideal Domains
 ----------------------------------
 
-The Smith Normal Form algorithm can be runny on any subclass of the principle ideal domain class `smithnormalform.pid.PID`. In order to subclass `PID`, you will need to define several basic operations that are well defined on PIDs such as addition, multiplication, division, negation, and GCD.
+The Smith Normal Form algorithm can be run on any subclass of the principle ideal domain class `smithnormalform.pid.PID`. In order to subclass `PID`, you will need to define several basic operations that are well defined on PIDs such as addition, multiplication, division, negation, and GCD.
 
 Since every PID is a [GCD Domain](https://en.wikipedia.org/wiki/GCD_domain), greatest common divisor is a well defined operation for two elements of PID. Just because GCD is well-defined, however, does not mean it is easy (or even tractible) to compute. One way to find the GCD of two elements is the [Euclidean algorithm](https://en.wikipedia.org/wiki/Euclidean_algorithm); however, the Euclidean algorithm can only be applied to [Euclidean domains](https://en.wikipedia.org/wiki/Euclidean_domain). While all Euclidean domains are PIDs, not all PIDs are Euclidean domains.
 
