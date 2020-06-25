@@ -16,9 +16,6 @@ script:
 - make lint
 - pytest --cov=smithnormalform
 
-after_success:
-- coveralls
-
 notifications:
   email:
     on_success: never
@@ -26,6 +23,10 @@ notifications:
 
 jobs:
   include:
+  - stage: coverreport
+    python: '3.8'
+    script:
+        - coveralls
   - stage: deploy
     python: '3.8'
     if: tag IS present
