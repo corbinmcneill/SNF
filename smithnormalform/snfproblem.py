@@ -196,7 +196,7 @@ class SNFProblem():
                     elif self.J.get(j, i).isUnitMultipleOf(gcd):
                         self.rSwap(i, j)
                         doneIteration = False
-                    elif gcd < self.J.get(i, i) or gcd < -self.J.get(i, i):
+                    else:
                         self.rLC(i, i, j, x, y, gcd)
                         doneIteration = False
                 for j in range(i + 1, self.J.w):
@@ -206,7 +206,7 @@ class SNFProblem():
                     elif self.J.get(i, j).isUnitMultipleOf(gcd):
                         self.cSwap(i, j)
                         doneIteration = False
-                    elif gcd < self.J.get(i, i) or gcd < -self.J.get(i, i):
+                    else:
                         self.cLC(i, i, j, x, y, gcd)
                         doneIteration = False
 
