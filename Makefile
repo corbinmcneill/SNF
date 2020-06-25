@@ -4,7 +4,7 @@ lint:
 	flake8 *.py
 
 test: clean-pyc
-	pytest
+	pytest --cov=smithnormalform
 	
 clean-pyc:
 	rm -f *.pyc
