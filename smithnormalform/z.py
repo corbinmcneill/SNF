@@ -26,10 +26,10 @@ class Z(ed.ED):
     def __mul__(self, x):
         return Z(self.a * x.a)
 
-    def __floordiv__(self, x):
+    def get_q(self, x):
         return Z(self.a // x.a)
 
-    def __mod__(self, x):
+    def get_r(self, x):
         return Z(self.a % x.a)
 
     def norm(self):

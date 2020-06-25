@@ -41,7 +41,7 @@ class ZI(ed.ED):
     def _num(x, y):
         return ZI((x * y._com()).a, (x * y._com()).b)
 
-    def __floordiv__(x, y):
+    def get_q(x, y):
         n1 = x._num(y).a
         n2 = x._num(y).b
         d = y.a*y.a + y.b*y.b
@@ -51,7 +51,7 @@ class ZI(ed.ED):
         return ZI(int(round(float((x._num(y)).a) // (y.a * y.a + y.b * y.b))),
                   int(round(float((x._num(y)).b) // (y.a * y.a + y.b * y.b))))
 
-    def __mod__(x, y):
+    def get_r(x, y):
         return ZI((x - y * (x // y)).a, (x - y * (x // y)).b)
 
     def norm(self):
