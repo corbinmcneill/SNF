@@ -149,27 +149,6 @@ class SNFProblem():
             adjustment.set(j, j, d)
         self.S = adjustment * self.S
 
-    @staticmethod
-    def euclid(a, b):
-        # output g, x, y where g = gcd(a,b) = xa + yb
-        x0 = type(b).getOne()
-        x1 = type(b).getZero()
-        y0 = type(b).getZero()
-        y1 = type(b).getOne()
-        while b != type(b).getZero():
-            tempa = a
-            tempb = b
-            q = tempa // tempb
-            a = tempb
-            b = tempa % tempb
-            tempx0 = x0
-            x0 = x1
-            x1 = tempx0 - q * x0
-            tempy0 = y0
-            y0 = y1
-            y1 = tempy0 - q * y0
-        return [a, x0, y0]
-
     def computeSNF(self):
         # The heart of snf starts here
         for i in range(min(self.J.h, self.J.w)):
@@ -211,7 +190,7 @@ class SNFProblem():
                     break
                 doneIteration = True
                 for j in range(i + 1, self.J.h):
-                    gcd, x, y = self.euclid(self.J.get(i, i), self.J.get(j, i))
+                    gcd, x, y = self.J.get(i, i).extended_gcd(self.J.get(j, i))
                     if self.J.get(i, i).isUnitMultipleOf(gcd):
                         pass
                     elif self.J.get(j, i).isUnitMultipleOf(gcd):
@@ -221,7 +200,7 @@ class SNFProblem():
                         self.rLC(i, i, j, x, y, gcd)
                         doneIteration = False
                 for j in range(i + 1, self.J.w):
-                    gcd, x, y = self.euclid(self.J.get(i, i), self.J.get(i, j))
+                    gcd, x, y = self.J.get(i, i).extended_gcd(self.J.get(i, j))
                     if self.J.get(i, i).isUnitMultipleOf(gcd):
                         pass
                     elif self.J.get(i, j).isUnitMultipleOf(gcd):
@@ -258,8 +237,7 @@ class SNFProblem():
             # and we return
             if self.J.get(i + 1, i + 1) == self.elementT.getZero():
                 return
-            gcd, x, y = SNFProblem.euclid(self.J.get(i, i),
-                                          self.J.get(i + 1, i + 1))
+            gcd, x, y = self.J.get(i, i).extended_gcd(self.J.get(i + 1, i + 1))
 
             # if the ith diagonal element is already the gcd of of the the
             # ith and the (i+1)th diagonal elements, they are correct and

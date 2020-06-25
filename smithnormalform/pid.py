@@ -16,14 +16,6 @@ class PID(ABC):
         pass
 
     @abstractmethod
-    def __lt__(self, x):
-        pass
-
-    @abstractmethod
-    def __gt__(self, x):
-        pass
-
-    @abstractmethod
     def __neg__(self):
         pass
 
@@ -67,3 +59,7 @@ class PID(ABC):
         if not (self // x).isUnit():
             return False
         return True
+
+    @abstractmethod
+    def extended_gcd(self, x):
+        pass

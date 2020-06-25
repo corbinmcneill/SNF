@@ -1,7 +1,7 @@
-from smithnormalform import pid
+from smithnormalform import ed
 
 
-class ZI(pid.PID):
+class ZI(ed.ED):
 
     def __init__(self, a, b):
         self.a = a
@@ -22,12 +22,6 @@ class ZI(pid.PID):
 
     def __ne__(x, y):
         return not x == y
-
-    def __lt__(x, y):
-        return (x.a*x.a + x.b*x.b) < (y.a*y.a + y.b*y.b)
-
-    def __gt__(x, y):
-        return (x.a*x.a + x.b*x.b) > (y.a*y.a + y.b*y.b)
 
     def __neg__(x):
         return ZI(-x.a, -x.b)
@@ -59,6 +53,9 @@ class ZI(pid.PID):
 
     def __mod__(x, y):
         return ZI((x - y * (x // y)).a, (x - y * (x // y)).b)
+
+    def norm(self):
+        return self.a * self.a + self.b * self.b
 
     @staticmethod
     def getZero():
