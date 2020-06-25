@@ -5,8 +5,7 @@ from smithnormalform import pid
 class ED(pid.PID):
 
     @abstractmethod
-    def norm(self):
-        pass
+    def norm(self): pass
 
     def __lt__(self, x):
         return self.norm() < x.norm()
@@ -18,15 +17,13 @@ class ED(pid.PID):
     # return q and r respectively such x = q*y + r is a euclidean relation
 
     @abstractmethod
-    def get_q(self, x):
-        pass
+    def get_q(self, x): pass
 
     def __floordiv__(self, x):
         return self.get_q(x)
 
     @abstractmethod
-    def get_r(self, x):
-        pass
+    def get_r(self, x): pass
 
     def __mod__(self, x):
         return self.get_r(x)
