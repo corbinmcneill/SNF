@@ -16,13 +16,13 @@ any principle ideal domain.
 What are Principle Ideal Domains?
 ---------------------------------
 
-Generally speaking [principle ideal
-domains](https://en.wikipedia.org/wiki/Principal_ideal_domain)(PID) is a class
-of mathematical structures that are more structured than a commutative ring,
-but not necessarily structured as a field. Two items in a PID will always have
-a greatest common denominator and they will always have a unique factorization.
-Elements of a PID do not necessarily have inverses though. For example,
-integers do not generally speaking have integer inverses.
+[Principle ideal domains](https://en.wikipedia.org/wiki/Principal_ideal_domain)
+Speaking more generally, PIDs are a class of mathematical structures that are
+more structured than a commutative ring, but not necessarily structured as a
+field.  Two items in a PID will always have a greatest common denominator
+(although this GCD is not always easy to compute) and they will always have a
+unique factorization.  Elements of a PID do not necessarily have inverses,
+which is why they are considered less structured than a field.
 
 Some examples of PIDs include:
 
