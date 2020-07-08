@@ -101,10 +101,3 @@ This leaves us in an unfortunate position. While the Smith Normal Form algorithm
 We resolve this conflict in the following way: We provide an abstract class for Euclidean domains (`smithnormalform.ed.ED`) that implements the euclidean algorithm for you. Extending this class requires you define a norm for your Euclidean domain; however, once you do so the GCD function required for PIDs will be completed for you without you needing to implement the Euclidian algorithm for yourself.
 
 If you would like to run this algorithm on a PID that is not a Euclidean domain, you can extend the PID class `smithnormalform.pid.PID` directly, bypassing the Euclidean domain class. Doing this will require you to implement the GCD function directly. Please note that GCDs are requested frequently during the Smith Normal Form calculation so if the GCD function isn't efficient the Smith Normal Form computation may be intractible.
-
-
-Contributors
-------------
-
-1. Corbin McNeill
-2. Elias Schomer
