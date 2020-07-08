@@ -12,17 +12,25 @@ Currently, this SNF library can calculate the SNF of matrices over either the
 integers or the gaussian integers. Additionally it can be easily extended to
 any principle ideal domain. 
 
+While there appear to be several open source Smith Normal Form implementations
+in a variety of programming languages, many of these implementations only
+operate on the integers. This is, to our knowledge, the only open source 
+Smith Normal Form calculator that operates over the generalized class of 
+principle ideal domains.
+
 
 What are Principle Ideal Domains?
 ---------------------------------
 
 [Principle ideal domains](https://en.wikipedia.org/wiki/Principal_ideal_domain)
-Speaking more generally, PIDs are a class of mathematical structures that are
-more structured than a commutative ring, but not necessarily structured as a
-field.  Two items in a PID will always have a greatest common denominator
-(although this GCD is not always easy to compute) and they will always have a
-unique factorization.  Elements of a PID do not necessarily have inverses,
-which is why they are considered less structured than a field.
+are integral domains (rings that behave like the integers) where every ideal is
+a principle ideal. Speaking more generally, PIDs are a class of mathematical
+structures that are more structured than a commutative ring, but not
+necessarily structured as a field.  Two items in a PID will always have a
+greatest common denominator (although this GCD is not always easy to compute)
+and they will always have a unique factorization.  Elements of a PID do not
+necessarily have inverses, which is why they are considered less structured
+than a field.
 
 Some examples of PIDs include:
 
