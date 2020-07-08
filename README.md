@@ -26,7 +26,7 @@ What are Principle Ideal Domains?
 are integral domains (rings that behave like the integers) where every ideal is
 a principle ideal. Speaking more generally, PIDs are a class of mathematical
 structures that are more structured than a commutative ring, but not
-necessarily structured as a field.  Two items in a PID will always have a
+necessarily as structured as a field.  Two items in a PID will always have a
 greatest common denominator (although this GCD is not always easy to compute)
 and they will always have a unique factorization.  Elements of a PID do not
 necessarily have inverses, which is why they are considered less structured
