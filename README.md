@@ -6,25 +6,25 @@
 # Generalized Python Smith Normal Form 
 
 This project is a python package implementing the calculation of smith normal
-forms (SNFs) for matrices defined over arbitrary principle ideal domains.
+forms (SNFs) for matrices defined over arbitrary principal ideal domains.
 
 Currently, this SNF library can calculate the SNF of matrices over either the
 integers or the Gaussian integers. Additionally it can be easily extended to
-any principle ideal domain. 
+any principal ideal domain. 
 
 While there appear to be several open source Smith Normal Form implementations
 in a variety of programming languages, many of these implementations only
 operate on the integers. This is, to our knowledge, the only open source 
 Smith Normal Form calculator that operates over the generalized class of 
-principle ideal domains.
+principal ideal domains.
 
 
-What are Principle Ideal Domains?
+What are Principal Ideal Domains?
 ---------------------------------
 
-[Principle ideal domains](https://en.wikipedia.org/wiki/Principal_ideal_domain)
+[Principal ideal domains](https://en.wikipedia.org/wiki/Principal_ideal_domain)
 are integral domains (rings that behave like the integers) where every ideal is
-a principle ideal. Speaking more generally, PIDs are a class of mathematical
+a principal ideal. Speaking more generally, PIDs are a class of mathematical
 structures that are more structured than a commutative ring, but not
 necessarily as structured as a field.  Two items in a PID will always have a
 greatest common denominator (although this GCD is not always easy to compute)
@@ -100,10 +100,10 @@ True
 
 
 
-Adding New Principle Ideal Domains
+Adding New Principal Ideal Domains
 ----------------------------------
 
-The Smith Normal Form algorithm can be run on any subclass of the principle
+The Smith Normal Form algorithm can be run on any subclass of the principal
 ideal domain class `smithnormalform.pid.PID`. In order to subclass `PID`, you
 will need to define several basic operations that are well defined on PIDs such
 as addition, multiplication, division, negation, and GCD.
