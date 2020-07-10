@@ -1,10 +1,41 @@
+import pytest
 from smithnormalform import z
 
 
-def test_creation():
+def test_int_creation():
     a = 10
     zObject = z.Z(a)
     assert(zObject.a == a)
+
+
+def test_str_creation():
+    a = "10"
+    zObject = z.Z(a)
+    assert(zObject.a == int(a))
+
+
+def test_list_creation():
+    a = [10]
+    zObject = z.Z(a)
+    assert(zObject.a == a[0])
+
+
+def test_bad_string_creation():
+    a = "hello"
+    with pytest.raises(z.InvalidInitialContent):
+        z.Z(a)
+
+
+def test_bad_list_creation():
+    a = [10, 12]
+    with pytest.raises(z.InvalidInitialContent):
+        z.Z(a)
+
+
+def test_bad_type_creation():
+    a = 2.0
+    with pytest.raises(z.InvalidInitialContent):
+        z.Z(a)
 
 
 def test_eq_neq():

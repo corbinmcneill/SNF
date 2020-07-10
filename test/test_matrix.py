@@ -1,5 +1,5 @@
-from smithnormalform import matrix, z
 import pytest
+from smithnormalform import matrix, z
 
 
 def test_create_matrix():

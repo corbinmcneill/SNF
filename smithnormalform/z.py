@@ -1,9 +1,26 @@
 from smithnormalform import ed
 
 
+class InvalidInitialContent(Exception):
+    pass
+
+
 class Z(ed.ED):
-    def __init__(self, a):
-        self.a = a
+    def __init__(self, content):
+        if isinstance(content, int):
+            self.a = content
+        elif isinstance(content, str):
+            try:
+                self.a = int(content)
+            except ValueError:
+                raise InvalidInitialContent
+        elif isinstance(content, (list, tuple)):
+            if len(content) != 1 or not isinstance(content[0], int):
+                raise InvalidInitialContent
+            else:
+                self.a = content[0]
+        else:
+            raise InvalidInitialContent
 
     def __str__(self):
         return str(self.a)
