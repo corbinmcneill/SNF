@@ -40,7 +40,7 @@ def test_snfproblem_zi(random_seed, size, abslimit):
     w = size[1]
 
     contents = [rand.randint(-abslimit, abslimit) for _ in range(h*w*2)]
-    zi_contents = [zi.ZI(contents[2*i], contents[2*i+1]) for i in range(h*w)]
+    zi_contents = [zi.ZI([contents[2*i], contents[2*i+1]]) for i in range(h*w)]
 
     m = matrix.Matrix(h, w, zi_contents)
 

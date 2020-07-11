@@ -1,5 +1,5 @@
 import pytest
-from smithnormalform import z
+from smithnormalform import pid, z
 
 
 def test_int_creation():
@@ -22,19 +22,19 @@ def test_list_creation():
 
 def test_bad_string_creation():
     a = "hello"
-    with pytest.raises(z.InvalidInitialContent):
+    with pytest.raises(pid.InvalidInitialContent):
         z.Z(a)
 
 
 def test_bad_list_creation():
     a = [10, 12]
-    with pytest.raises(z.InvalidInitialContent):
+    with pytest.raises(pid.InvalidInitialContent):
         z.Z(a)
 
 
 def test_bad_type_creation():
     a = 2.0
-    with pytest.raises(z.InvalidInitialContent):
+    with pytest.raises(pid.InvalidInitialContent):
         z.Z(a)
 
 

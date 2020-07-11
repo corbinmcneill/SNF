@@ -1,8 +1,5 @@
-from smithnormalform import ed
+from smithnormalform import ed, pid
 
-
-class InvalidInitialContent(Exception):
-    pass
 
 
 class Z(ed.ED):
@@ -13,14 +10,14 @@ class Z(ed.ED):
             try:
                 self.a = int(content)
             except ValueError:
-                raise InvalidInitialContent
-        elif isinstance(content, (list, tuple)):
+                raise pid.InvalidInitialContent
+        elif isinstance(content, list):
             if len(content) != 1 or not isinstance(content[0], int):
-                raise InvalidInitialContent
+                raise pid.InvalidInitialContent
             else:
                 self.a = content[0]
         else:
-            raise InvalidInitialContent
+            raise pid.InvalidInitialContent
 
     def __str__(self):
         return str(self.a)

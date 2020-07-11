@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 
+class InvalidInitialContent(Exception):
+    pass
 
 class PID(ABC):
 
