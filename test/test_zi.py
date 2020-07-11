@@ -10,7 +10,7 @@ def test_str_creation():
 
 
 def test_list_creation():
-    a = [10,12]
+    a = [10, 12]
     ziObject = zi.ZI(a)
     assert(ziObject.a == a[0])
     assert(ziObject.b == a[1])

@@ -4,7 +4,7 @@ import re
 
 class ZI(ed.ED):
 
-    regex_pattern = "^(?:(-?\d+)([\+-]\d*)i)|(-?\d*)|(-?\d+i)$"
+    regex_pattern = "^(?:(-?\\d+)([\\+-]\\d*)i)|(-?\\d*)|(-?\\d+i)$"
     regex_compiled = re.compile(regex_pattern)
 
     def __init__(self, content):
@@ -27,8 +27,8 @@ class ZI(ed.ED):
         elif isinstance(content, list):
             if len(content) != 2:
                 raise pid.InvalidInitialContent
-            if (not isinstance(content[0], int) or 
-                not isinstance(content[1], int)): 
+            if not (isinstance(content[0], int) and
+                    isinstance(content[1], int)):
                 raise pid.InvalidInitialContent
             else:
                 self.a = content[0]

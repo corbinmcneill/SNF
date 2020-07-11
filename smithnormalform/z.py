@@ -1,7 +1,6 @@
 from smithnormalform import ed, pid
 
 
-
 class Z(ed.ED):
     def __init__(self, content):
         if isinstance(content, int):
