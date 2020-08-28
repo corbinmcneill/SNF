@@ -1,9 +1,11 @@
 pipeline {
   agent any
   stages {
-    stage('lint') {
+    stage('test') {
       steps {
-        sh 'make lint'
+        sh '''virtualenv venv --distribute
+./venv/bin/activate
+pip install -r requirements.txt'''
       }
     }
 
