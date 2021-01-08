@@ -1,16 +1,23 @@
 from abc import abstractmethod
 from smithnormalform import pid
 
-
+# This abstract class represents all Euclidean Domains. While the Smith Normal Form algorithm is well defined for all
+# PIDs, it is substantially easier to compute for Euclidean Domains. For this reason, we include this class as a useful
+# abstraction. In particular, if a PID extends directly from the pid.PID class, that class must implement its own
+# extended gcd-like operation. If the PID extends from ed.ED instead, the extended gcd computation will already be
+# implemented for it, although there are several new abstract methods that must be implemented in its place. Note that
+# this only works if the PID is genuinely a Euclidean Domain. see: https://en.wikipedia.org/wiki/Euclidean_domain
 class ED(pid.PID):
 
     @abstractmethod
     def norm(self):
         pass
 
+    # returns whether |self| < |x| (a norm-wise comparison)
     def __lt__(self, x):
         return self.norm() < x.norm()
 
+    # returns whether |self| > |x| (a norm-wise comparison)
     def __gt__(self, x):
         return self.norm() > x.norm()
 
