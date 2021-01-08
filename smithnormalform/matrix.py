@@ -10,7 +10,7 @@ class InvalidNumberOfElements(Exception):
     pass
 
 
-class Matrix():
+class Matrix:
 
     _determinant_saves = {}
 
@@ -69,7 +69,7 @@ class Matrix():
         if self.h != self.w:
             raise MatrixNotSquareException()
 
-        if (self.h == 1):
+        if self.h == 1:
             return self.get(0, 0)
 
         elements_tuple = tuple(self.elements)
@@ -79,7 +79,7 @@ class Matrix():
         total = type(self.get(0, 0)).getZero()
         for i in range(self.h):
             scale = self.get(i, 0)
-            if (i % 2 == 1):
+            if i % 2 == 1:
                 scale = -scale
             subcontent = []
             for j in range(self.h):
@@ -96,7 +96,7 @@ class Matrix():
 
     @staticmethod
     def id(dim, elementType):
-        elements = [elementType.getZero() for i in range(dim*dim)]
+        elements = [elementType.getZero() for _ in range(dim*dim)]
         for i in range(dim):
             elements[i*dim + i] = elementType.getOne()
         return Matrix(dim, dim, elements)

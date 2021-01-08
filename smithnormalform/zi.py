@@ -80,8 +80,6 @@ class ZI(ed.ED):
         comp1 = (n1 + d//2)//d
         comp2 = (n2 + d//2)//d
         return ZI([comp1, comp2])
-        return ZI([int(round(float((x._num(y)).a) // (y.a * y.a + y.b * y.b))),
-                  int(round(float((x._num(y)).b) // (y.a * y.a + y.b * y.b)))])
 
     def get_r(x, y):
         return ZI([(x - y * (x // y)).a, (x - y * (x // y)).b])

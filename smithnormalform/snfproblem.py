@@ -1,7 +1,7 @@
 from smithnormalform import matrix
 
 
-class SNFProblem():
+class SNFProblem:
     def __init__(self, A, debug=False):
         self.A = A.copy()
         self.elementT = type(A.get(0, 0))
@@ -86,7 +86,6 @@ class SNFProblem():
             c = -self.J.get(k, j) // gcd
             d = self.J.get(k, i) // gcd
 
-        temp = []
         for k in range(self.J.h):
             temp = self.J.get(k, i)
             self.J.set(k, i, a * self.J.get(k, i) + b * self.J.get(k, j))
@@ -127,7 +126,7 @@ class SNFProblem():
         if self.debug:
             print("rLC call")
 
-        if (gcd is None or a.isUnit()):
+        if gcd is None or a.isUnit():
             c = self.elementT.getZero()
             d = self.elementT.getOne()
         else:
@@ -160,11 +159,13 @@ class SNFProblem():
                 # we search for a nonzero entry in the submatrix to replace the
                 # zero element with.
                 foundReplacement = False
+                j = i
+                k = i
                 for j in range(i, self.J.h):
                     if foundReplacement:
                         break
                     for k in range(i, self.J.w):
-                        if (self.J.get(j, k) != self.elementT.getZero()):
+                        if self.J.get(j, k) != self.elementT.getZero():
                             foundReplacement = True
                             break
 
@@ -183,10 +184,9 @@ class SNFProblem():
 
             # make the top-left submatrix element be the gcd of all the
             # elements in the same row or the same column
-            gcd = self.J.get(i, i)
             doneIteration = False
             while not doneIteration:
-                if (self.J.get(i, i).isUnit()):
+                if self.J.get(i, i).isUnit():
                     break
                 doneIteration = True
                 for j in range(i + 1, self.J.h):
@@ -244,11 +244,11 @@ class SNFProblem():
             # we can advance. If they are not we should change the ith
             # element to be the gcd by row operations while maintaining
             # that self.J is diagonal
-            if (gcd == self.J.get(i + 1, i + 1)):
+            if gcd == self.J.get(i + 1, i + 1):
                 self.cSwap(i, i + 1)
                 self.rSwap(i, i + 1)
 
-            elif (gcd != self.J.get(i, i)):
+            elif gcd != self.J.get(i, i):
                 self.rLC(i, i, i + 1, self.elementT.getOne(),
                          self.elementT.getOne())
                 self.cLC(i, i, i + 1, x, y, gcd)

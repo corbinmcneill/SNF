@@ -75,7 +75,7 @@ class PID(ABC):
 
         Note that if your principle ideal domain is additionally a euclidean
         domain, the extended euclidean algorithm can be used to find the
-        extended gcd.  Rather than implmenenting the extended euclidean
+        extended gcd.  Rather than implementing the extended euclidean
         algorithm yourself, you should instead have your PID inherit from
         smithnormalform.ed.ED instead, which will cause extended_gcd to be
         implemented for you.
