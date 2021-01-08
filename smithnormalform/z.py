@@ -1,9 +1,11 @@
 from smithnormalform import ed, pid
 
 
-# This is represents the ring of all integers. Since the set of all integers is a euclidean domain, this class extends
-# ed.ED. We operate basic functionality of the ring of integers including addition, subtraction, multiplication,
-# quotient, and remainder operations. See: https://en.wikipedia.org/wiki/Ring_of_integers
+# This is represents the ring of all integers. Since the set of all integers
+# is a euclidean domain, this class extends ed.ED. We operate basic
+# functionality of the ring of integers including addition, subtraction,
+# multiplication, quotient, and remainder operations. See:
+# https://en.wikipedia.org/wiki/Ring_of_integers
 class Z(ed.ED):
     def __init__(self, content):
         if isinstance(content, int):
@@ -25,7 +27,8 @@ class Z(ed.ED):
         return str(self.a)
 
     def __hash__(self):
-        # We include a unique class identifier here to force the hash to be unique to objects of this class
+        # We include a unique class identifier here to force the hash to be
+        # unique to objects of this class
         return hash(("com.corbinmcneill.smithnormalform.z", self.a))
 
     def __eq__(self, x):
@@ -54,8 +57,9 @@ class Z(ed.ED):
     def get_r(self, x):
         return Z(self.a % x.a)
 
-    # Since all euclidean domains must feature a norm, we include a norm to support euclidean domain operations
-    # supported in ed.ED. A number of norms could have been chosen here, but we choose the classic norm of
+    # Since all euclidean domains must feature a norm, we include a norm to
+    # support euclidean domain operations supported in ed.ED. A number of
+    # norms could have been chosen here, but we choose the classic norm of
     # |x| = x^2 .
     def norm(self):
         return self.a * self.a
@@ -70,6 +74,7 @@ class Z(ed.ED):
     def getOne():
         return Z(1)
 
-    # Returns whether the integer here is a unit. see: https://en.wikipedia.org/wiki/Unit_(ring_theory)
+    # Returns whether the integer here is a unit. see:
+    # https://en.wikipedia.org/wiki/Unit_(ring_theory)
     def isUnit(self):
         return (self.a == 1) or (self.a == -1)

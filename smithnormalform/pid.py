@@ -5,9 +5,11 @@ class InvalidInitialContent(Exception):
     pass
 
 
-# This abstract class represents all Principle Ideal Domains. In order for this library to be able to process your ring
-# it must implement all of the @abstractmethods below. Each of these operations are well defined for all PIDs and
-# uniquely define a PID. see: https://en.wikipedia.org/wiki/Principal_ideal_domain
+# This abstract class represents all Principle Ideal Domains. In order for
+# this library to be able to process your ring it must implement all of the
+# @abstractmethods below. Each of these operations are well defined for all
+# PIDs and uniquely define a PID. see:
+# https://en.wikipedia.org/wiki/Principal_ideal_domain
 class PID(ABC):
 
     @abstractmethod
@@ -66,7 +68,8 @@ class PID(ABC):
     def getOne():
         pass
 
-    # returns whether the integer here is a unit. see: https://en.wikipedia.org/wiki/Unit_(ring_theory)
+    # returns whether the integer here is a unit. see:
+    # https://en.wikipedia.org/wiki/Unit_(ring_theory)
     @abstractmethod
     def isUnit(self):
         pass
