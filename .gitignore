@@ -1,7 +1,16 @@
+# python specific
 *.pyc
 __pycache__
-*.pdf
 build
 dist
+venv
 *.egg-info
+
+# coveralls.io
 .coverage
+
+# generic
+*.pdf
+
+# IDEs / editors
+.idea
