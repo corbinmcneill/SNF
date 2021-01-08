@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 
 
+# raised when the contents passed into a generator to create an element cannot
+# be properly interpreted
 class InvalidInitialContent(Exception):
     pass
 

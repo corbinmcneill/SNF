@@ -1,11 +1,17 @@
+# raised when an invoked matrix operation cannot be completed because the
+# dimensions of the two matrices are incompatible. For example, in order to add
+# two matrices their dimensions must be identical.
 class IncompatibleMatrixSizesException(Exception):
     pass
 
-
+# raised when you invoke a matrix operation that only be completed on square
+# matrices on a non-square matrix.
 class MatrixNotSquareException(Exception):
     pass
 
-
+# raised when you try and create a matrix with an invalid number of specified
+# elements. For example, if you tried to create a 2x2 matrix while only
+# specifying 3 elements, this exception would be raised.
 class InvalidNumberOfElements(Exception):
     pass
 
@@ -17,7 +23,7 @@ class Matrix:
     # programming. For details of its usage see the determinant method.
     _determinant_saves = {}
 
-    # h: the height of the matrix
+    # h: the height of the matrix]
     # w: the width of the matrix
     # elements: a list of h*w elements of a PID
     def __init__(self, h, w, elements):
