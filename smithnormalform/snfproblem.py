@@ -1,41 +1,46 @@
 from smithnormalform import matrix
 
 
-# This class represents a well-defined Smith Normal Form problem. It contains all the problem parameters (inputs)
-# necessary to perform the computation. It implements all computation as methods and implements completion
+# This class represents a well-defined Smith Normal Form problem. It contains
+# all the problem parameters (inputs) necessary to perform the computation.
+# It implements all computation as methods and implements completion
 # verification as well. see: https://en.wikipedia.org/wiki/Smith_normal_form
 class SNFProblem:
 
     # A is a matrix over a PID that we want to find the smith normal form of.
     def __init__(self, A, debug=False):
-        # A is never changed. It remains a reference to the original input to the problem.
+        # A is never changed. It remains a reference to the original input to
+        # the problem.
         self.A = A.copy()
 
         self.elementT = type(A.get(0, 0))
-        # J originally starts as a copy of A. As computation is performed, it is gradually reshaped into its Smith
-        # Normal Form
+        # J originally starts as a copy of A. As computation is performed,
+        # it is gradually reshaped into its Smith Normal Form
         self.J = A.copy()
 
-        # S and T are the complimentary unimodular matrices that help diagonalize J. They start as identity matrices
-        # of the appropriate size and are gradually shaped into the respective unimodular complement matrices of the
-        # Smith Normal Form problem.
+        # S and T are the complimentary unimodular matrices that help
+        # diagonalize J. They start as identity matrices of the appropriate
+        # size and are gradually shaped into the respective unimodular
+        # complement matrices of the Smith Normal Form problem.
         self.S = matrix.Matrix.id(A.h, type(A.get(0, 0)))
         self.T = matrix.Matrix.id(A.w, type(A.get(0, 0)))
 
         self.debug = debug
 
-    # Returns whether the current state of the SNFProblem object is a completed solution to the underlying problem,
-    # that is whether it is currently in Smith Normal Form
+    # Returns whether the current state of the SNFProblem object is a
+    # completed solution to the underlying problem, that is whether it is
+    # currently in Smith Normal Form
     #
-    # The matrix can be said to be in its Smith Normal Form iff the following conditions hold:
+    # The matrix can be said to be in its Smith Normal Form iff the following
+    # conditions hold:
     # 1. S is a unimodular matrix
     # 2. T is a unimodular matrix
     # 3. J is a diagonalized matrix
     # 4. The elements down the diagonal of J are in increasing order
     # 5. S * A * T == J
     #
-    # We can verify that the matrix is currently in Smith Normal Form by simpling checking that each of these conditions
-    # are true.
+    # We can verify that the matrix is currently in Smith Normal Form by
+    # simpling checking that each of these conditions are true.
     def isValid(self):
         # check that S is unimodular
         if not self.S.determinant().isUnit():
@@ -78,8 +83,9 @@ class SNFProblem:
         # if all of the checks pass then this is a valid completed SNF problem
         return True
 
-    # Perform a "column-swap". Here we modify the matrix J by swapping the columns of index i and j. We adjust the
-    # matrix T to make sure the overall relation of S*A*T = J continues to hold.
+    # Perform a "column-swap". Here we modify the matrix J by swapping the
+    # columns of index i and j. We adjust the matrix T to make sure the
+    # overall relation of S*A*T = J continues to hold.
     def cSwap(self, i, j):
         if self.debug:
             print("cSwap call")
@@ -101,8 +107,10 @@ class SNFProblem:
         adjustment.set(j, i, self.elementT.getOne())
         self.T = self.T * adjustment
 
-    # Perform a "column-wise linear combination" operation. Here we set the k column of the matrix J to be a * the k
-    # column plus b times the j column. We update the T matrix to ensure the relationship S*A*T = J continues to hold.
+    # Perform a "column-wise linear combination" operation. Here we set the k
+    # column of the matrix J to be a * the k column plus b times the j
+    # column. We update the T matrix to ensure the relationship S*A*T = J
+    # continues to hold.
     def cLC(self, k, i, j, a, b, gcd=None):
         if self.debug:
             print("cLC call")
@@ -130,8 +138,9 @@ class SNFProblem:
 
         self.T = self.T * adjustment
 
-    # Perform a "row-swap". Here we modify the matrix J by swapping the rows of index i and j. We adjust the
-    # matrix S to make sure the overall relation of S*A*T = J continues to hold.
+    # Perform a "row-swap". Here we modify the matrix J by swapping the rows
+    # of index i and j. We adjust the matrix S to make sure the overall
+    # relation of S*A*T = J continues to hold.
     def rSwap(self, i, j):
         if self.debug:
             print("rSwap call")
@@ -153,8 +162,10 @@ class SNFProblem:
         adjustment.set(j, j, self.elementT.getZero())
         self.S = adjustment * self.S
 
-    # Perform a "row-wise linear combination" operation. Here we set the k row of the matrix J to be a * the i
-    # row plus b times the j row. We update the S matrix to ensure the relationship S*A*T = J continues to hold.
+    # Perform a "row-wise linear combination" operation. Here we set the k
+    # row of the matrix J to be a * the i row plus b times the j row. We
+    # update the S matrix to ensure the relationship S*A*T = J continues to
+    # hold.
     def rLC(self, k, i, j, a, b, gcd=None):
         if self.debug:
             print("rLC call")
@@ -181,12 +192,15 @@ class SNFProblem:
             adjustment.set(j, j, d)
         self.S = adjustment * self.S
 
-    # Here we take an input problem not yet in SNF form and place it in SNF form. At a high level, this algorithm
-    # operates shell-by-shell to gradually move the J matrix into the correct form. The underlying matrices of the
-    # problem are only ever edited via calls to the rSwap, cSwap, rLC, and cLC methods. These methods will maintain
-    # the unimodular nature of the matrices S and T and will ensure that the relationship of S*A*T = J continues to
-    # hold. Therefore, if after continued invocations of these methods, the J matrix is in the appropriate form, we
-    # are guaranteed the underlying solution is correct.
+    # Here we take an input problem not yet in SNF form and place it in SNF
+    # form. At a high level, this algorithm operates shell-by-shell to
+    # gradually move the J matrix into the correct form. The underlying
+    # matrices of the problem are only ever edited via calls to the rSwap,
+    # cSwap, rLC, and cLC methods. These methods will maintain the unimodular
+    # nature of the matrices S and T and will ensure that the relationship of
+    # S*A*T = J continues to hold. Therefore, if after continued invocations
+    # of these methods, the J matrix is in the appropriate form, we are
+    # guaranteed the underlying solution is correct.
     def computeSNF(self):
         # The heart of snf starts here
         for i in range(min(self.J.h, self.J.w)):
