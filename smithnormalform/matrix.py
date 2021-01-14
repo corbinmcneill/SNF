@@ -4,10 +4,12 @@
 class IncompatibleMatrixSizesException(Exception):
     pass
 
+
 # raised when you invoke a matrix operation that only be completed on square
 # matrices on a non-square matrix.
 class MatrixNotSquareException(Exception):
     pass
+
 
 # raised when you try and create a matrix with an invalid number of specified
 # elements. For example, if you tried to create a 2x2 matrix while only
