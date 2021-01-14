@@ -92,8 +92,8 @@ True
 [ 1 2 ]
 [ 3 4 ]
 >>> print(prob.J)
-[ -2 1 ]
-[ 3 -1 ]
+[ -1 0 ]
+[  0 2 ]
 >>> print(prob.S * prob.A * prob.T == prob.J)
 True
 ```
