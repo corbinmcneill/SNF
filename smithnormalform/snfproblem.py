@@ -66,19 +66,9 @@ class SNFProblem:
         # then we check that diagonal elements divide each other until a zero
         # is found and then all remaining diagonal elements are zero
         diagLength = min(self.J.h, self.J.w)
-        if diagLength > 1:
-            lastDiag = self.J.get(0, 0)
-            seenZero = (lastDiag == zero)
-            for i in range(1, diagLength):
-                currentDiag = self.J.get(i, i)
-                if currentDiag == zero:
-                    seenZero = True
-
-                if seenZero and currentDiag != zero:
-                    return False
-
-                if not seenZero and currentDiag % lastDiag != zero:
-                    return False
+        for i in range(0, diagLength - 1):
+            if not self.J.get(i, i).divides(self.J.get(i + 1, i + 1)):
+                return False
 
         # if all of the checks pass then this is a valid completed SNF problem
         return True
