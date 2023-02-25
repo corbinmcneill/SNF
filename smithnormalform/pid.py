@@ -48,14 +48,14 @@ class PID(ABC):
     def __mul__(self, x):
         pass
 
-    # returns the floored division of two elements of a PID
+    # returns True iff x = k * self for some k from the ring
     @abstractmethod
-    def __floordiv__(self, x):
+    def divides(self, x):
         pass
 
-    # returns the floored division remainder of two elements of a PID
+    # if x divides self and is not zero, returns the unique k satisfying self = k * x
     @abstractmethod
-    def __mod__(self, x):
+    def __floordiv__(self, x):
         pass
 
     # returns the additive identity of the ring
@@ -78,11 +78,7 @@ class PID(ABC):
 
     # returns True when this object is a unit multiple of x, otherwise False.
     def isUnitMultipleOf(self, x):
-        if not (self % x) == self.getZero():
-            return False
-        if not (self // x).isUnit():
-            return False
-        return True
+        return self.divides(x) and x.divides(self)
 
     # This should return a tuple (g, x, y) such where
     # - g is the gcd of self and x

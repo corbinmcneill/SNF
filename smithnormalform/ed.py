@@ -43,6 +43,11 @@ class ED(pid.PID):
     def __mod__(self, x):
         return self.get_r(x)
 
+    def divides(self, x):
+        if self == self.getZero():
+            return x == self.getZero()
+        return self % x == self.getZero()
+
     # in a euclidean domain, the extended euclidean algorithm can be used
     # to find the extended_gcd, which makes this problem much easier
     def extended_gcd(a, b):
